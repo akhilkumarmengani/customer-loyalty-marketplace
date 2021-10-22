@@ -5,6 +5,7 @@ import java.sql.*;
 import models.Brand;
 import models.Customer;
 import util.Login;
+import util.SignUp;
 
 public class DBTasks {
 	
@@ -55,7 +56,7 @@ public class DBTasks {
 		{
 			stmt = conn.prepareStatement(query);
 			
-			stmt.setString(1, login.getUserId());
+			stmt.setString(1, login.getUserName());
 			
 			stmt.setString(2, login.getPassWord());
 		
@@ -68,6 +69,32 @@ public class DBTasks {
 		{
 			return  null;
 		}
+	}
+	
+	public static void insertLoginData(String query, SignUp signUp)
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, signUp.getUserName());
+			
+			stmt.setString(2, signUp.getPassWord());
+			
+			stmt.setString(3, signUp.getLoginType());
+			
+			System.out.println(stmt);
+			
+			stmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			return;
+		}
+		
 	}
 	
 	public static void insertBrand(String query, Brand brand)

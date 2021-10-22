@@ -5,7 +5,7 @@ import db.DBTasks;
 
 public class Login {
 	
-		public String UserId;
+		public String userName;
 		public String passWord;
 		
 		public void takeInput()
@@ -14,9 +14,9 @@ public class Login {
 			
 			while(true)
 			{
-				Input.takeLoginInput(this);
+				if(!Input.takeLoginInput(this)) continue;
 				
-				if(this.getUserId() == null || this.getPassWord() == null)
+				if(this.getUserName() == null || this.getPassWord() == null)
 				{
 					System.out.println("Invalid Input");
 					continue;
@@ -30,8 +30,8 @@ public class Login {
 				
 				try
 				{
-					String Query = "select USER_NAME, USER_PASSWORD, LOGIN_TYPE from LOGIN "
-							+ "where USER_NAME = ? and USER_PASSWORD = ?";
+					String Query = "select USER_NAME, PASSWORD, LOGIN_TYPE from users "
+							+ "where USER_NAME = ? and PASSWORD = ?";
 					
 					ResultSet rs = DBTasks.executeQueryForLogin(Query, this);
 					
@@ -40,7 +40,7 @@ public class Login {
 						System.out.println("Invalid Login !!!!"); continue;
 					}
 					
-					System.out.println(rs.getString("USER_NAME")+" "+rs.getString("USER_PASSWORD")+" "
+					System.out.println(rs.getString("USER_NAME")+" "+rs.getString("PASSWORD")+" "
 							+rs.getString("LOGIN_TYPE"));
 					
 				}
@@ -53,12 +53,12 @@ public class Login {
 			
 		}
 
-		public String getUserId() {
-			return UserId;
+		public String getUserName() {
+			return userName;
 		}
 
-		public void setUserId(String userId) {
-			UserId = userId;
+		public void setUserName(String userName) {
+			this.userName = userName;
 		}
 
 		public String getPassWord() {

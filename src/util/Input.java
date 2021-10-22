@@ -6,21 +6,67 @@ import models.Customer;
 
 public class Input {
 	
-	public static void takeLoginInput(Login login)
+	public static boolean takeLoginInput(Login login)
 	{
-		Scanner sc = DisplayOptions.getSc();
-		
-		System.out.println("A: User Id");
-		
-		login.setUserId(sc.next());
-		
-		System.out.println("B: Password");
-		
-		login.setPassWord(sc.next());
-		
-		return;
+		try
+		{
+			System.out.println("Enter login details !!!!!");
+			
+			Scanner sc = DisplayOptions.getSc();
+			
+			System.out.println("A: User Name");
+			
+			login.setUserName(sc.next());
+			
+			System.out.println("B: Password");
+			
+			login.setPassWord(sc.next());
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("Invalid Input !!!!");
+			return false;
+		}
+		return true;
 		
 	}
+	
+	public static boolean takeSignupInput(SignUp signUp)
+	{
+		try
+		{
+			System.out.println("Enter signup details !!!!!");
+			
+			Scanner sc = DisplayOptions.getSc();
+			
+			System.out.println("A: User Name");
+			
+			signUp.setUserName(sc.next());
+			
+			System.out.println("B: Password");
+			
+			signUp.setPassWord(sc.next());
+			
+			System.out.println("C: Confirm Password");
+			
+			String passwd = sc.next();
+			
+			if(!signUp.getPassWord().equals(passwd))
+			{
+				System.out.println("Invalid Input !!!!");
+				return false;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Invalid Input !!!!");
+			return false;
+		}
+		return true;
+		
+	}
+	
 	
 	public static void takeBrandInput(Brand brandObj)
 	{

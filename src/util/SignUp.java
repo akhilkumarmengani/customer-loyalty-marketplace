@@ -1,11 +1,47 @@
 package util;
 import db.DBTasks;
-import models.Brand;
-import models.Customer;
+
 
 public class SignUp {
 	
+	public Integer UserId;
+	public String userName;
+	
+	public String passWord;
+	public String loginType;
+	
+	public String getUserName() {
+		return userName;
+	}
 
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
+	public String getLoginType() {
+		return loginType;
+	}
+
+	public void setLoginType(String loginType) {
+		this.loginType = loginType;
+	}
+
+	public Integer getUserId() {
+		return UserId;
+	}
+
+	public void setUserId(Integer userId) {
+		UserId = userId;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
 	
 	public void takeInput()
 	{
@@ -17,44 +53,50 @@ public class SignUp {
 			
 			type = DisplayOptions.getSc().nextInt();
 			
-			if(type == 1)
+			if(!Input.takeSignupInput(this)) continue;
+			
+			if(this.getUserName() == null || this.getPassWord() == null)
 			{
-				Brand brandObj = new Brand();
-				try
-				{
-					Input.takeBrandInput(brandObj);
-				}
-				catch(Exception e)
-				{
-					System.out.println("Invalid Input !!!!"); continue;
-				}
-				
-				brandObj.setBrandId(100);
-				
-				String query = "insert into Brand values(BRAND_ID_SEQUENCE.nextval,?,?,?)";
-				
-				DBTasks.insertBrand(query, brandObj);
-				
+				System.out.println("Invalid Input !!!!");
+				continue;
 			}
-			else
+			
+			if(type == 1) this.setLoginType("BRAND");
+			
+			else this.setLoginType("CUSTOMER");
+			
+			DisplayOptions.printOptions(DisplayOptions.options.get("Sign-up"));
+			
+			int option = DisplayOptions.getSc().nextInt();
+			
+			if(option >= 3)
 			{
-				Customer custObj = new Customer();
-				try
-				{
-					Input.takeCustomerInput(custObj);
-				}
-				catch(Exception e)
-				{
-					System.out.println("Invalid Input !!!!"); continue;
-				}
+				System.out.println("Invalid input !!!"); continue;
+			}
+			
+			if(option == 2) 
+			{
+				return;
+			}
+			
+			try
+			{
+				String query = "insert into users(user_id,user_name, password, login_type) values (user_id_sequence.nextval,?,?,?)";
+					
+				DBTasks.insertLoginData(query, this);
 				
-				custObj.setCustomerId(200);
+				System.out.println("Registered successfully !!!!1");
 				
-				String query = "insert into Customer values(CUSTOMER_ID_SEQUENCE.nextval,?,?,?)";
+			//	DBTasks.getConn().commit();
 				
-				DBTasks.insertCustomer(query, custObj);
+				new Login().takeInput();
 				
-				
+				return;
+			
+			}
+			catch(Exception e)
+			{
+				System.out.println("Username aldready exists !!!"); continue;
 			}
 		}
 		

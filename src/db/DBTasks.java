@@ -5,16 +5,14 @@ import java.sql.*;
 import models.Brand;
 import models.Customer;
 import util.Login;
-import util.SignUp;
 
 public class DBTasks {
 	
-	public static final String jdbcURL 
-	= "jdbc:oracle:thin:@csc540db.cxddnez16iql.us-east-2.rds.amazonaws.com:1521:DATABASE";
+	public static final String jdbcURL = "jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl01";
 	
-	public static final String userName = "nitw";
+	public static final String userName = "smulkur";
 	
-	public static final String passWord = "nitw1234";
+	public static final String passWord = "abcd1234";
 	
 	public static Connection conn;
 	
@@ -71,20 +69,25 @@ public class DBTasks {
 		}
 	}
 	
-	public static void insertLoginData(String query, SignUp signUp)
+	public static void insertBrandLoginData(String query, Brand brandObj) throws Exception
 	{
 		try
 		{
 			stmt = conn.prepareStatement(query);
 			
-			stmt.setString(1, signUp.getUserName());
+
+			stmt.setString(1, brandObj.getUserName());
 			
-			stmt.setString(2, signUp.getPassWord());
+			stmt.setString(2, brandObj.getPassWord());
 			
-			stmt.setString(3, signUp.getLoginType());
+			stmt.setString(3, "BRAND");
 			
-			System.out.println(stmt);
+			stmt.setString(4, brandObj.getBrandName());
 			
+			stmt.setString(5, brandObj.getAddress());
+			
+			stmt.setInt(6, brandObj.getContactNumber());
+
 			stmt.executeUpdate();
 			
 		}
@@ -92,54 +95,85 @@ public class DBTasks {
 		{
 			System.out.println(e.toString());
 			
-			return;
+			throw new Exception(e);
 		}
 		
 	}
 	
-	public static void insertBrand(String query, Brand brand)
+	public static void insertCustomerLoginData(String query, Customer custObj) throws Exception
 	{
 		try
 		{
 			stmt = conn.prepareStatement(query);
 			
-			stmt.setLong(1, brand.getBrandId());
+
+			stmt.setString(1, custObj.getUserName());
 			
-			stmt.setString(2, brand.getName());
+			stmt.setString(2, custObj.getPassWord());
 			
-			stmt.setString(3, brand.getAddress());
+			stmt.setString(3, "CUSTOMER");
 			
-			stmt.setDate(4, brand.getJoinDate());
+			stmt.setString(4, custObj.getCustomerName());
 			
+			stmt.setString(5, custObj.getAddress());
+			
+			stmt.setInt(6, custObj.getContactNumber());
+
 			stmt.executeUpdate();
 			
 		}
 		catch(Exception e)
 		{
-			return;
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
 		}
+		
 	}
-	
-	public static void insertCustomer(String query, Customer custObj)
-	{
-		try
-		{
-			stmt = conn.prepareStatement(query);
-			
-			stmt.setInt(1, custObj.getCustomerId());
-			
-			stmt.setString(2, custObj.getName());
-			
-			stmt.setString(3, custObj.getAddress());
-			
-			stmt.setInt(4, custObj.getPhoneNumber());
-			
-			stmt.executeUpdate();
-			
-		}
-		catch(Exception e)
-		{
-			return;
-		}
-	}
+//	
+//	public static void insertBrand(String query, Brand brand)
+//	{
+//		try
+//		{
+//			stmt = conn.prepareStatement(query);
+//			
+//			stmt.setLong(1, brand.getBrandId());
+//			
+//			stmt.setString(2, brand.getName());
+//			
+//			stmt.setString(3, brand.getAddress());
+//			
+//			stmt.setDate(4, brand.getJoinDate());
+//			
+//			stmt.executeUpdate();
+//			
+//		}
+//		catch(Exception e)
+//		{
+//			return;
+//		}
+//	}
+//	
+//	public static void insertCustomer(String query, Customer custObj)
+//	{
+//		try
+//		{
+//			stmt = conn.prepareStatement(query);
+//			
+//			stmt.setInt(1, custObj.getCustomerId());
+//			
+//			stmt.setString(2, custObj.getName());
+//			
+//			stmt.setString(3, custObj.getAddress());
+//			
+//			stmt.setInt(4, custObj.getPhoneNumber());
+//			
+//			stmt.executeUpdate();
+//			
+//		}
+//		catch(Exception e)
+//		{
+//			return;
+//		}
+//	}
 }

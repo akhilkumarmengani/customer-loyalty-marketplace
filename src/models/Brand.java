@@ -1,62 +1,66 @@
 package models;
-import java.sql.Date;
 
 public class Brand {
-	Integer brandId;
-	String name;
-	String address;
-	Date joinDate;
 	
-	public Integer getBrandId() {
-		return brandId;
+	public Integer UserId;
+	
+	public Integer getUserId() {
+		return UserId;
 	}
 
-
-
-	public void setBrandId(Integer brandId) {
-		this.brandId = brandId;
+	public void setUserId(Integer userId) {
+		UserId = userId;
 	}
 
-
-
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-
-
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
+	public String getPassWord() {
+		return passWord;
+	}
 
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
 
 	public String getAddress() {
 		return address;
 	}
 
-
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
-
-	public Date getJoinDate() {
-		return joinDate;
+	public Integer getContactNumber() {
+		return contactNumber;
 	}
 
-
-
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
+	public void setContactNumber(Integer contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "Brand Name : " + this.name + " Address: " + this.address + " Join Date : " + this.joinDate;
-	}
+	public String userName;
+	
+	public String passWord;
+	
+	public String brandName;
+	
+	public String address;
+	
+	public Integer contactNumber;
+	
+	
 }

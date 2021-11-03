@@ -2,41 +2,66 @@ package models;
 
 public class Customer {
 	
-	Integer customerId;
-	String name;
-	Integer phoneNumber;
-	String address;
-	Integer walletId;
 	
-	public Integer getCustomerId() {
-		return customerId;
+	public Integer UserId;
+	
+	public Integer getUserId() {
+		return UserId;
 	}
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
+
+	public void setUserId(Integer userId) {
+		UserId = userId;
 	}
-	public String getName() {
-		return name;
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public Integer getPhoneNumber() {
-		return phoneNumber;
+
+	public String getPassWord() {
+		return passWord;
 	}
-	public void setPhoneNumber(Integer phoneNumber) {
-		this.phoneNumber = phoneNumber;
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
+
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Integer getWalletId() {
-		return walletId;
+
+	public Integer getContactNumber() {
+		return contactNumber;
 	}
-	public void setWalletId(Integer walletId) {
-		this.walletId = walletId;
+
+	public void setContactNumber(Integer contactNumber) {
+		this.contactNumber = contactNumber;
 	}
+
+	public String userName;
+	
+	public String passWord;
+	
+	public String customerName;
+	
+	public String address;
+	
+	public Integer contactNumber;
 	
 }

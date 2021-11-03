@@ -2,6 +2,7 @@ package util;
 import java.sql.ResultSet;
 
 import db.DBTasks;
+import models.AdminLanding;
 
 public class Login {
 	
@@ -16,22 +17,27 @@ public class Login {
 			{
 				if(!Input.takeLoginInput(this)) continue;
 				
-				if(this.getUserName() == null || this.getPassWord() == null)
-				{
-					System.out.println("Invalid Input");
-					continue;
-				}
-				
-				DisplayOptions.printOptions(DisplayOptions.options.get("Login"));
+				break;
+			}
+			
+			while(true)
+			{
+			
+				DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.Login));
 				
 				option = DisplayOptions.getSc().nextInt();
+				
+				if(option < 1 || option > 2)
+				{
+					System.out.println("Invalid Option"); continue;
+				}
 				
 				if(option == 2) return;
 				
 				try
 				{
-					String Query = "select USER_NAME, PASSWORD, LOGIN_TYPE from users "
-							+ "where USER_NAME = ? and PASSWORD = ?";
+					String Query = "select USER_NAME, PASSWD, LOGIN_TYPE from users "
+							+ "where USER_NAME = ? and PASSWD = ?";
 					
 					ResultSet rs = DBTasks.executeQueryForLogin(Query, this);
 					
@@ -40,18 +46,28 @@ public class Login {
 						System.out.println("Invalid Login !!!!"); continue;
 					}
 					
-					System.out.println(rs.getString("USER_NAME")+" "+rs.getString("PASSWORD")+" "
-							+rs.getString("LOGIN_TYPE"));
+					System.out.println("Login Successful !!!!");
+					
+					String login_type = rs.getString("LOGIN_TYPE");
+					
+					switch(login_type)
+					{
+						case "ADMIN":
+						{
+							new AdminLanding().takeInput();
+						}
+					}
 					
 				}
 				catch(Exception e)
 				{
 					
 				}
-				
-			}
 			
+			}
 		}
+			
+	
 
 		public String getUserName() {
 			return userName;

@@ -33,7 +33,7 @@ public class Main {
 
 				int option;
 			
-				List<String> inputList = options.get("Home");
+				List<String> inputList = options.get(DisplayOptions.Home);
 				
 				while(true)
 				{
@@ -43,7 +43,7 @@ public class Main {
 					
 					option = sc.nextInt();
 					
-					if(option > inputList.size())
+					if(option < 1 || option > 4)
 					{
 						System.out.println("Invalid Input");
 						

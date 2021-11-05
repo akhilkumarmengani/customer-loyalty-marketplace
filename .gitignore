@@ -1,2 +1,4 @@
-*class
+# class files
+*.class
+# classpath
 .classpath

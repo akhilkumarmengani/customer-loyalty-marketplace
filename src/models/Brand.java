@@ -1,6 +1,7 @@
 package models;
 
-public class Brand {
+public class Brand {	
+	
 	
 	public Integer UserId;
 	

@@ -1,6 +1,7 @@
-package models;
+package brands;
 
 import db.DBTasks;
+import models.Brand;
 import util.DisplayOptions;
 import util.Input;
 import util.Login;

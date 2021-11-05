@@ -1,5 +1,6 @@
 package util;
 import java.sql.ResultSet;
+import customers.CustomerLanding;
 
 import db.DBTasks;
 import models.AdminLanding;
@@ -55,6 +56,9 @@ public class Login {
 						case "ADMIN":
 						{
 							new AdminLanding().takeInput();
+						}
+						case "CUSTOMER":{
+							new CustomerLanding().takeInput();
 						}
 					}
 					

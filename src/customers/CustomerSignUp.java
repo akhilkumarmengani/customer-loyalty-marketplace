@@ -1,6 +1,7 @@
-package models;
+package customers;
 
 import db.DBTasks;
+import models.Customer;
 import util.DisplayOptions;
 import util.Input;
 import util.Login;

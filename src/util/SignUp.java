@@ -1,6 +1,6 @@
 package util;
+import customers.CustomerSignUp;
 import models.BrandSignUp;
-import models.CustomerSignUp;
 
 
 public class SignUp {

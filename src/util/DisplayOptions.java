@@ -1,5 +1,6 @@
 package util;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,70 @@ public class DisplayOptions {
 	public static final String AddActivityType = "Add activity type";
 	public static final String AddRewardType = "Add reward type";
 	public static final String AdminLanding = "Admin: Landing";
+	public static final String CustomerLanding = "Customer: Landing";
 	public static final String Logout = "Logout";
+	
+	// Customer Landing Strings
+	public static final String Enroll = "Enroll in Loyalty Program";
+	public static final String RewardActivities = "Reward Activities";
+	public static final String ViewWallet = "View Wallet";
+	public static final String RedeemPoints = "Redeem Points";
+	public static final String CustomerLogout = "Customer Logout";
+	
+	
+	// Customer: Reward Activities
+	public static final String Purchase = "Purchase";
+	public static final String LeaveAReview = "Leave A Review";
+	public static final String ReferAFriend = "Refer A Friend";
+	
+	//Customer: Redeem Points
+	public static final String RewardsSelection  = "Rewards Selection";
+	
+	
+	public static void populateCustomerOption() {
+		// Customer Landing
+		List<String> optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
+		options.put(CustomerLanding, optionsList);
+		
+		
+		//Customer: Enroll in Loyalty Program
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Enroll,GoBack));
+		options.put(Enroll, optionsList);
+		
+		
+		//Customer: Reward Activities
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Purchase,LeaveAReview,ReferAFriend,GoBack));
+		options.put(RewardActivities, optionsList);
+		
+		//Customer: Purchase
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Purchase,GoBack));
+		options.put(Purchase, optionsList);
+		
+		//Customer: Leave a review
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(LeaveAReview,GoBack));
+		options.put(LeaveAReview, optionsList);
+		
+		//Customer: Refer a friend
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(ReferAFriend,GoBack));
+		options.put(ReferAFriend, optionsList);
+		
+		//Customer: View Wallet
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(GoBack));
+		options.put(ViewWallet, optionsList);
+		
+		//Customer: Redeem Points
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(RewardsSelection,GoBack));
+		options.put(RedeemPoints, optionsList);
+		
+	}
 
 	public static void populateOptions()
 	{

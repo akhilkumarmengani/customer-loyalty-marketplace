@@ -130,6 +130,51 @@ public class DBTasks {
 		}
 		
 	}
+	
+	
+	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
+		String query = "select * from brands";
+		
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+			rs = stmt.executeQuery();
+
+			return rs;
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
+		}
+	}
+	
+	public static void insertIntoCustomersToBrands(int customerId, int brandId) throws Exception {
+		String query = "insert into customers_to_brands(customer_id,brand_id)  values (?,?)";
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, String.valueOf(customerId));
+			
+			stmt.setString(2,  String.valueOf(brandId));
+			
+			stmt.executeUpdate();
+
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
+		}
+	}
+	
+	
 //	
 //	public static void insertBrand(String query, Brand brand)
 //	{

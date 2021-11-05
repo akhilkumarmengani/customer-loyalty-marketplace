@@ -2,7 +2,6 @@ package util;
 
 import customers.CustomerSignUp;
 import models.BrandSignUp;
-=======
 import brands.BrandSignUp;
 import models.CustomerSignUp;
 

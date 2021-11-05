@@ -132,19 +132,19 @@ public class DBTasks {
 		
 	}
 	
-	
-	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
-		String query = "select * from brands";
-		
 	public static void insertRegularLoyaltyData(String query, RegularLoyaltyProgram regularLPObj) throws Exception
 	{
 		try
 		{
+			
+			
 			stmt = conn.prepareStatement(query);
 			
-			rs = stmt.executeQuery();
-
-			return rs;
+			stmt.setInt(1, regularLPObj.getBrandId());
+			
+			stmt.executeUpdate();
+			
+			
 			
 		}
 		catch(Exception e)
@@ -166,10 +166,6 @@ public class DBTasks {
 			stmt.setString(2,  String.valueOf(brandId));
 			
 			stmt.executeUpdate();
-
-			stmt.setInt(1, regularLPObj.getBrandId());
-						
-			stmt.executeUpdate();
 			
 		}
 		catch(Exception e)
@@ -179,6 +175,16 @@ public class DBTasks {
 			throw new Exception(e);
 		}
 	}			
+	
+	
+	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
+		String query = "select * from brands";
+		
+		rs = stmt.executeQuery();
+
+		return rs;
+	
+	
 	}	
 //	
 //	public static void insertBrand(String query, Brand brand)

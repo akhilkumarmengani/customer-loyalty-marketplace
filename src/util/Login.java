@@ -63,7 +63,7 @@ public class Login {
 						case "CUSTOMER":{
 							new CustomerLanding().takeInput();
 						}
-
+					}
 //					switch(login_type)
 //					{
 //						case "ADMIN":

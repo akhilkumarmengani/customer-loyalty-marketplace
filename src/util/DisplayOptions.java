@@ -59,61 +59,14 @@ public class DisplayOptions {
 	
 	
 	// Customer: Reward Activities
-	public static final String Purchase = "Purchase";
+	public static final String Purchase1 = "Purchase";
 	public static final String LeaveAReview = "Leave A Review";
 	public static final String ReferAFriend = "Refer A Friend";
 	
 	//Customer: Redeem Points
 	public static final String RewardsSelection  = "Rewards Selection";
 	
-	
-	public static void populateCustomerOption() {
-		// Customer Landing
-		List<String> optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
-		options.put(CustomerLanding, optionsList);
-		
-		
-		//Customer: Enroll in Loyalty Program
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Enroll,GoBack));
-		options.put(Enroll, optionsList);
-		
-		
-		//Customer: Reward Activities
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Purchase,LeaveAReview,ReferAFriend,GoBack));
-		options.put(RewardActivities, optionsList);
-		
-		//Customer: Purchase
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Purchase,GoBack));
-		options.put(Purchase, optionsList);
-		
-		//Customer: Leave a review
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(LeaveAReview,GoBack));
-		options.put(LeaveAReview, optionsList);
-		
-		//Customer: Refer a friend
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(ReferAFriend,GoBack));
-		options.put(ReferAFriend, optionsList);
-		
-		//Customer: View Wallet
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(GoBack));
-		options.put(ViewWallet, optionsList);
-		
-		//Customer: Redeem Points
-		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(RewardsSelection,GoBack));
-		options.put(RedeemPoints, optionsList);
-		
-	}
-
-	public static void populateOptions()
-	{
+	//Brand : Strings
 	public static final String BrandLanding = "Brand: Landing";
 	
 	public static final String AddLoyaltyProgram="Add_loyalty_program";
@@ -143,6 +96,52 @@ public class DisplayOptions {
 	public static final String SetUp="Setup";
 	
 	public static final String Validate="validate";
+	
+	
+	public static void populateCustomerOption() {
+		// Customer Landing
+		List<String> optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
+		options.put(CustomerLanding, optionsList);
+		
+		
+		//Customer: Enroll in Loyalty Program
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Enroll,GoBack));
+		options.put(Enroll, optionsList);
+		
+		
+		//Customer: Reward Activities
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Purchase1,LeaveAReview,ReferAFriend,GoBack));
+		options.put(RewardActivities, optionsList);
+		
+		//Customer: Purchase
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(Purchase1,GoBack));
+		options.put(Purchase1, optionsList);
+		
+		//Customer: Leave a review
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(LeaveAReview,GoBack));
+		options.put(LeaveAReview, optionsList);
+		
+		//Customer: Refer a friend
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(ReferAFriend,GoBack));
+		options.put(ReferAFriend, optionsList);
+		
+		//Customer: View Wallet
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(GoBack));
+		options.put(ViewWallet, optionsList);
+		
+		//Customer: Redeem Points
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(RewardsSelection,GoBack));
+		options.put(RedeemPoints, optionsList);
+		
+	}
 	public static void populateOptions() {
 
 		List<String> list;
@@ -257,7 +256,7 @@ public class DisplayOptions {
 		options.put(Regular, list);
 		
 		list = new ArrayList<>();
-		list.add(Purchase);
+		list.add(Purchase1);
 		list.add(LeaveReview);
 		list.add(ReferFriend);
 		list.add(GoBack);

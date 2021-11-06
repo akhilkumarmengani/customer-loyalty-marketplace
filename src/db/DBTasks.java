@@ -131,6 +131,37 @@ public class DBTasks {
 		}
 		
 	}
+<<<<<<< HEAD
+
+	public static Brand getBrandInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding brand is not present !!!");
+				
+				return null;
+			}
+			
+			Brand brandObj = new Brand();
+			
+			brandObj.setBrandName(rs.getString("name"));
+			
+			brandObj.setAddress(rs.getString("address"));
+			
+			brandObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return brandObj;
+=======
 	
 	public static void insertRegularLoyaltyData(String query, RegularLoyaltyProgram regularLPObj) throws Exception
 	{
@@ -145,10 +176,45 @@ public class DBTasks {
 			stmt.executeUpdate();
 			
 			
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 			
 		}
 		catch(Exception e)
 		{
+<<<<<<< HEAD
+			return null;
+		}
+	}
+	
+	public static Customer getCustomerInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding customer is not present !!!");
+				
+				return null;
+			}
+			
+			Customer custObj = new Customer();
+			
+			custObj.setCustomerName(rs.getString("name"));
+			
+			custObj.setAddress(rs.getString("address"));
+			
+			custObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return custObj;
+=======
 			System.out.println(e.toString());
 			
 			throw new Exception(e);
@@ -166,10 +232,18 @@ public class DBTasks {
 			stmt.setString(2,  String.valueOf(brandId));
 			
 			stmt.executeUpdate();
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 			
 		}
 		catch(Exception e)
 		{
+<<<<<<< HEAD
+			return null;
+		}
+	}
+
+
+=======
 			System.out.println(e.toString());
 			
 			throw new Exception(e);
@@ -232,4 +306,5 @@ public class DBTasks {
 //			return;
 //		}
 //	}
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 }

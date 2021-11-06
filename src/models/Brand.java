@@ -1,8 +1,11 @@
 package models;
 
-public class Brand {
+public class Brand {	
+	
 	
 	public Integer UserId;
+	
+	public String loyaltyType;
 	
 	public Integer getUserId() {
 		return UserId;
@@ -50,6 +53,14 @@ public class Brand {
 
 	public void setContactNumber(Integer contactNumber) {
 		this.contactNumber = contactNumber;
+	}
+	
+	public String getLoyaltyType() {
+		return loyaltyType;
+	}
+	
+	public void setLoyaltyType(String loyaltyType) {
+		this.loyaltyType = loyaltyType;
 	}
 
 	public String userName;

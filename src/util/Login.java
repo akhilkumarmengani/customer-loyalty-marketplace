@@ -1,6 +1,8 @@
 package util;
 import java.sql.ResultSet;
+import customers.CustomerLanding;
 
+import brands.BrandLanding;
 import db.DBTasks;
 import models.AdminLanding;
 
@@ -49,7 +51,9 @@ public class Login {
 					System.out.println("Login Successful !!!!");
 					
 					String login_type = rs.getString("LOGIN_TYPE");
+					System.out.println(login_type);
 					
+
 					switch(login_type)
 					{
 						case "ADMIN":
@@ -57,6 +61,27 @@ public class Login {
 							new AdminLanding().takeInput();
 							return;
 						}
+						case "CUSTOMER":{
+							new CustomerLanding().takeInput();
+						}
+					}
+//					switch(login_type)
+//					{
+//						case "ADMIN":
+//						{
+//							new AdminLanding().takeInput();
+//							break;
+//						}
+//						case "BRAND":
+//						{
+//							new BrandLanding().takeInput();
+//							break;
+//						}
+//					}
+					if(login_type.equalsIgnoreCase("BRAND")) {
+						 new BrandLanding().takeInput();
+						 return;
+
 					}
 					
 				}

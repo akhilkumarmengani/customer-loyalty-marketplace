@@ -55,6 +55,7 @@ public class Login {
 						case "ADMIN":
 						{
 							new AdminLanding().takeInput();
+							return;
 						}
 					}
 					

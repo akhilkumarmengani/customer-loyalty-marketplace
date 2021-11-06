@@ -130,50 +130,78 @@ public class DBTasks {
 		}
 		
 	}
-//	
-//	public static void insertBrand(String query, Brand brand)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setLong(1, brand.getBrandId());
-//			
-//			stmt.setString(2, brand.getName());
-//			
-//			stmt.setString(3, brand.getAddress());
-//			
-//			stmt.setDate(4, brand.getJoinDate());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
-//	
-//	public static void insertCustomer(String query, Customer custObj)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setInt(1, custObj.getCustomerId());
-//			
-//			stmt.setString(2, custObj.getName());
-//			
-//			stmt.setString(3, custObj.getAddress());
-//			
-//			stmt.setInt(4, custObj.getPhoneNumber());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
+
+	public static Brand getBrandInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding brand is not present !!!");
+				
+				return null;
+			}
+			
+			Brand brandObj = new Brand();
+			
+			brandObj.setBrandName(rs.getString("name"));
+			
+			brandObj.setAddress(rs.getString("address"));
+			
+			brandObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return brandObj;
+			
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	public static Customer getCustomerInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding customer is not present !!!");
+				
+				return null;
+			}
+			
+			Customer custObj = new Customer();
+			
+			custObj.setCustomerName(rs.getString("name"));
+			
+			custObj.setAddress(rs.getString("address"));
+			
+			custObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return custObj;
+			
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+
+
 }

@@ -1,15 +1,17 @@
 package models;
 
 import db.DBTasks;
+
 import util.DisplayOptions;
 import util.Input;
 import util.Login;
+
 
 public class BrandSignUp {
 	
 	public boolean takeInput()
 	{
-		Brand brandObj;
+		Brand brandObj = null;
 		
 		while(true)
 		{

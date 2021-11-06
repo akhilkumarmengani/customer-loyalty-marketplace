@@ -47,6 +47,7 @@ public class DisplayOptions {
 	public static final String AdminLanding = "Admin: Landing";
 	public static final String Logout = "Logout";
 
+
 	public static void populateOptions()
 	{
 		List<String> list;

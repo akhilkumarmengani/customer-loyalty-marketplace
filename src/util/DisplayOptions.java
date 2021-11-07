@@ -50,101 +50,119 @@ public class DisplayOptions {
 	public static final String CustomerLanding = "Customer: Landing";
 	public static final String Logout = "Logout";
 	
+
+
+	//---------------------Customer Strings Start--------------------------
+
 	// Customer Landing Strings
 	public static final String Enroll = "Enroll in Loyalty Program";
 	public static final String RewardActivities = "Reward Activities";
 	public static final String ViewWallet = "View Wallet";
 	public static final String RedeemPoints = "Redeem Points";
 	public static final String CustomerLogout = "Customer Logout";
-	
-	
+
+
 	// Customer: Reward Activities
-	public static final String Purchase1 = "Purchase";
+	public static final String Purchase = "Purchase";
 	public static final String LeaveAReview = "Leave A Review";
 	public static final String ReferAFriend = "Refer A Friend";
-	
+
 	//Customer: Redeem Points
 	public static final String RewardsSelection  = "Rewards Selection";
-	
-	//Brand : Strings
+
+
+	//---------------------Customer Strings Start--------------------------
+
+	// Brand : Strings
 	public static final String BrandLanding = "Brand: Landing";
-	
-	public static final String AddLoyaltyProgram="Add_loyalty_program";
-	public static final String AddRERules="Add_RE_Rules";
-	public static final String UpdateRERule="Update_RE_Rules";
-	public static final String AddRRRules = "Add_RR_Rules";
-	public static final String UpdateRRRule = "Update_RR_Rule";
-	public static final String ValidateLoyaltyProgram = "Validate_Loyalty_Program";
-	
-	public static final String LoyaltyProgram="Loyalty_Program";
-	
-	public static final String Regular="Regular";
-	public static final String Tier="Tier";
-	
-	public static final String ActivityTypes="Activity_Types";
-	public static final String RewardTypes="Reward_Types";
-	
-	public static final String Purchase="Purchase";
-	public static final String LeaveReview="Leave_a_review";
-	public static final String ReferFriend="Refer_a_friend";
-	
-	public static final String GiftCard="Gift_Card";
-	public static final String FreeProduct="Free_Product";
-	
-	public static final String TiersSetup="Tiers_Setup";
-	
-	public static final String SetUp="Setup";
-	
-	public static final String Validate="validate";
-	
-	
-	public static void populateCustomerOption() {
+
+	public static final String AddLoyaltyProgram = "Add loyalty program";
+	public static final String AddRERules = "Add RE Rules";
+	public static final String UpdateRERule = "Update RE Rules";
+	public static final String AddRRRules = "Add RR Rules";
+	public static final String UpdateRRRule = "Update RR Rule";
+	public static final String ValidateLoyaltyProgram = "Validate Loyalty Program";
+
+	public static final String LoyaltyProgram = "Loyalty_Program";
+
+	public static final String Regular = "Regular";
+	public static final String Tier = "Tier";
+
+	public static final String ActivityTypes = "Activity Types";
+	public static final String RewardTypes = "Reward Types";
+
+	public static final String LeaveReview = "Leave a review";
+	public static final String ReferFriend = "Refer a friend";
+
+	public static final String GiftCard = "Gift_Card";
+	public static final String FreeProduct = "Free_Product";
+
+	public static final String TiersSetup = "Tiers_Setup";
+
+	public static final String SetUp = "Setup";
+
+	public static final String Validate = "validate";
+
+
+	public static void populateCustomerOptions() {
 		// Customer Landing
 		List<String> optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
 		options.put(CustomerLanding, optionsList);
-		
-		
+
 		//Customer: Enroll in Loyalty Program
 		optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(Enroll,GoBack));
 		options.put(Enroll, optionsList);
-		
-		
+
+
 		//Customer: Reward Activities
 		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Purchase1,LeaveAReview,ReferAFriend,GoBack));
+		optionsList.addAll(Arrays.asList(Purchase,LeaveAReview,ReferAFriend,GoBack));
 		options.put(RewardActivities, optionsList);
-		
+
 		//Customer: Purchase
 		optionsList = new ArrayList<>();
-		optionsList.addAll(Arrays.asList(Purchase1,GoBack));
-		options.put(Purchase1, optionsList);
-		
+		optionsList.addAll(Arrays.asList(Purchase,GoBack));
+		options.put(Purchase, optionsList);
+
 		//Customer: Leave a review
 		optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(LeaveAReview,GoBack));
 		options.put(LeaveAReview, optionsList);
-		
+
 		//Customer: Refer a friend
 		optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(ReferAFriend,GoBack));
 		options.put(ReferAFriend, optionsList);
-		
+
 		//Customer: View Wallet
 		optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(GoBack));
 		options.put(ViewWallet, optionsList);
-		
+
 		//Customer: Redeem Points
 		optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(RewardsSelection,GoBack));
 		options.put(RedeemPoints, optionsList);
-		
+
+		// Go Back
+		optionsList = new ArrayList<>();
+		optionsList.addAll(Arrays.asList(GoBack));
+		options.put(GoBack, optionsList);
+
+
 	}
+
 	public static void populateOptions() {
 
 		List<String> list;
+
+//		list = new ArrayList<>();
+//		list.add(Login);
+//		list.add(SignUp);
+//		list.add(ShowQueries);
+//		list.add(Exit);
 
 		list = new ArrayList<>();
 		list.add(Login);
@@ -227,6 +245,7 @@ public class DisplayOptions {
 		options.put(AddRewardType, list);
 		
 		populateBrandOptions();
+		populateCustomerOptions();
 
 	}
 
@@ -237,75 +256,76 @@ public class DisplayOptions {
 		list.add(AddLoyaltyProgram);
 		list.add(AddRERules);
 		list.add(UpdateRERule);
-		list.add(AddRERules);
-		list.add(UpdateRERule);
+		list.add(AddRRRules);
+		list.add(UpdateRRRule);
 		list.add(ValidateLoyaltyProgram);
 		list.add(Logout);
 		options.put(BrandLanding, list);
-		
+
 		list = new ArrayList<>();
 		list.add(Regular);
 		list.add(Tier);
 		list.add(GoBack);
 		options.put(AddLoyaltyProgram, list);
-		
+
 		list = new ArrayList<>();
 		list.add(ActivityTypes);
 		list.add(RewardTypes);
 		list.add(GoBack);
 		options.put(Regular, list);
-		
+
 		list = new ArrayList<>();
-		list.add(Purchase1);
+		list.add(Purchase);
 		list.add(LeaveReview);
 		list.add(ReferFriend);
 		list.add(GoBack);
 		options.put(ActivityTypes, list);
-		
+
 		list = new ArrayList<>();
 		list.add(GiftCard);
 		list.add(FreeProduct);
 		list.add(GoBack);
 		options.put(RewardTypes, list);
-		
+
 		list = new ArrayList<>();
 		list.add(TiersSetup);
 		list.add(ActivityTypes);
 		list.add(RewardTypes);
 		list.add(GoBack);
 		options.put(Tier, list);
-		
+
 		list = new ArrayList<>();
 		list.add(SetUp);
 		list.add(GoBack);
 		options.put(TiersSetup, list);
-		
+
 		list = new ArrayList<>();
 		list.add(AddRERules);
 		list.add(GoBack);
 		options.put(AddRERules, list);
-		
+
 		list = new ArrayList<>();
 		list.add(UpdateRERule);
 		list.add(GoBack);
 		options.put(UpdateRERule, list);
-		
+
 		list = new ArrayList<>();
 		list.add(AddRRRules);
 		list.add(GoBack);
 		options.put(AddRRRules, list);
-		
+
 		list = new ArrayList<>();
 		list.add(UpdateRRRule);
 		list.add(GoBack);
 		options.put(UpdateRRRule, list);
-		
+
 		list = new ArrayList<>();
 		list.add(Validate);
 		list.add(GoBack);
 		options.put(ValidateLoyaltyProgram, list);
 	}
-	
+
+
 	public static void printOptions(List<String> list) {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i + 1 + " : " + list.get(i));

@@ -1,7 +1,9 @@
 package util;
 import java.sql.ResultSet;
-import customers.CustomerLanding;
 
+import brands.BrandsUtil;
+import customers.CustomerLanding;
+import customers.CustomerLandingUtil;
 import brands.BrandLanding;
 import db.DBTasks;
 import models.AdminLanding;
@@ -38,7 +40,7 @@ public class Login {
 				
 				try
 				{
-					String Query = "select USER_NAME, PASSWD, LOGIN_TYPE from users "
+					String Query = "select * from users "
 							+ "where USER_NAME = ? and PASSWD = ?";
 					
 					ResultSet rs = DBTasks.executeQueryForLogin(Query, this);
@@ -51,8 +53,10 @@ public class Login {
 					System.out.println("Login Successful !!!!");
 					
 					String login_type = rs.getString("LOGIN_TYPE");
-					System.out.println(login_type);
+//					System.out.println(login_type);
 					
+					int user_id = Integer.valueOf(rs.getInt("USER_ID"));
+//					System.out.println(user_id);
 
 					switch(login_type)
 					{
@@ -62,28 +66,18 @@ public class Login {
 							return;
 						}
 						case "CUSTOMER":{
+							int customerId = 
+									CustomerLandingUtil.getCustomerIdByUserId(Integer.valueOf(user_id));
+//							System.out.println("Login Customer : "+customerId);
+							AppData.customerId = Integer.valueOf(customerId);
 							new CustomerLanding().takeInput();
 						}
+						case "BRAND": {
+							BrandsUtil.initializeAllFields(this);
+							new BrandLanding().takeInput();
+							return;
+						}
 					}
-//					switch(login_type)
-//					{
-//						case "ADMIN":
-//						{
-//							new AdminLanding().takeInput();
-//							break;
-//						}
-//						case "BRAND":
-//						{
-//							new BrandLanding().takeInput();
-//							break;
-//						}
-//					}
-					if(login_type.equalsIgnoreCase("BRAND")) {
-						 new BrandLanding().takeInput();
-						 return;
-
-					}
-					
 				}
 				catch(Exception e)
 				{

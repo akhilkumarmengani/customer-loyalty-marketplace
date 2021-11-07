@@ -1,4 +1,6 @@
+/db/
+/models/
 /util/
 /customers/
-/db/
-/main/
+/brands/
+*.class

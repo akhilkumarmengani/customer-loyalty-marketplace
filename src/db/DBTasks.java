@@ -136,7 +136,99 @@ public class DBTasks {
 		}
 		
 	}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+	public static Brand getBrandInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding brand is not present !!!");
+				
+				return null;
+			}
+			
+			Brand brandObj = new Brand();
+			
+			brandObj.setBrandName(rs.getString("name"));
+			
+			brandObj.setAddress(rs.getString("address"));
+			
+			brandObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return brandObj;
+=======
+	
+	public static void insertRegularLoyaltyData(String query, RegularLoyaltyProgram regularLPObj) throws Exception
+	{
+		try
+		{
+			
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setInt(1, regularLPObj.getBrandId());
+			
+			stmt.executeUpdate();
+			
+			
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
+			
+		}
+		catch(Exception e)
+		{
+<<<<<<< HEAD
+			return null;
+		}
+	}
+	
+	public static Customer getCustomerInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding customer is not present !!!");
+				
+				return null;
+			}
+			
+			Customer custObj = new Customer();
+			
+			custObj.setCustomerName(rs.getString("name"));
+			
+			custObj.setAddress(rs.getString("address"));
+			
+			custObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return custObj;
+=======
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
+		}
+	}
+>>>>>>> c109390a77226e8e443ba62bf3b6f2144e9dfd65
 	
 	public static void insertIntoCustomersToBrands(int customerId, int brandId) throws Exception {
 		System.out.println(customerId+" "+brandId);
@@ -151,10 +243,18 @@ public class DBTasks {
 			stmt.setString(2,  String.valueOf(brandId));
 			
 			stmt.executeUpdate();
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 			
 		}
 		catch(Exception e)
 		{
+<<<<<<< HEAD
+			return null;
+		}
+	}
+
+
+=======
 			System.out.println(e.toString());
 			
 			throw new Exception(e);
@@ -170,6 +270,7 @@ public class DBTasks {
 		return rs;
 	
 	
+<<<<<<< HEAD
 	}
 	
 	public static Integer getCustomerIdByUserId(int userId) throws Exception {
@@ -1240,4 +1341,54 @@ public class DBTasks {
 			throw new Exception(e);
 		}
 	}
+=======
+	}	
+//	
+//	public static void insertBrand(String query, Brand brand)
+//	{
+//		try
+//		{
+//			stmt = conn.prepareStatement(query);
+//			
+//			stmt.setLong(1, brand.getBrandId());
+//			
+//			stmt.setString(2, brand.getName());
+//			
+//			stmt.setString(3, brand.getAddress());
+//			
+//			stmt.setDate(4, brand.getJoinDate());
+//			
+//			stmt.executeUpdate();
+//			
+//		}
+//		catch(Exception e)
+//		{
+//			return;
+//		}
+//	}
+//	
+//	public static void insertCustomer(String query, Customer custObj)
+//	{
+//		try
+//		{
+//			stmt = conn.prepareStatement(query);
+//			
+//			stmt.setInt(1, custObj.getCustomerId());
+//			
+//			stmt.setString(2, custObj.getName());
+//			
+//			stmt.setString(3, custObj.getAddress());
+//			
+//			stmt.setInt(4, custObj.getPhoneNumber());
+//			
+//			stmt.executeUpdate();
+//			
+//		}
+//		catch(Exception e)
+//		{
+//			return;
+//		}
+//	}
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
+>>>>>>> c109390a77226e8e443ba62bf3b6f2144e9dfd65
 }

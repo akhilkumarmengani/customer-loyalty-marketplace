@@ -63,6 +63,7 @@ public class Login {
 						case "ADMIN":
 						{
 							new AdminLanding().takeInput();
+							return;
 						}
 						case "CUSTOMER":{
 							int customerId = 

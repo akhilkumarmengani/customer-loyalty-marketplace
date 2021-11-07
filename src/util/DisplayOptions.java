@@ -49,9 +49,23 @@ public class DisplayOptions {
 	public static final String AdminLanding = "Admin: Landing";
 	public static final String CustomerLanding = "Customer: Landing";
 	public static final String Logout = "Logout";
+<<<<<<< HEAD
 
 
 	//---------------------Customer Strings Start--------------------------
+=======
+<<<<<<< HEAD
+
+
+	public static void populateOptions()
+	{
+		List<String> list;
+		
+		list = new ArrayList<>();
+		list.add(Login); list.add(SignUp); list.add(ShowQueries); list.add(Exit);
+=======
+	
+>>>>>>> c109390a77226e8e443ba62bf3b6f2144e9dfd65
 	// Customer Landing Strings
 	public static final String Enroll = "Enroll in Loyalty Program";
 	public static final String RewardActivities = "Reward Activities";
@@ -107,6 +121,7 @@ public class DisplayOptions {
 		List<String> optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
 		options.put(CustomerLanding, optionsList);
+>>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 		
 		
 		//Customer: Enroll in Loyalty Program

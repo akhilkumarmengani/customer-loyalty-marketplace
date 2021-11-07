@@ -49,6 +49,7 @@ public class DisplayOptions {
 	public static final String AdminLanding = "Admin: Landing";
 	public static final String CustomerLanding = "Customer: Landing";
 	public static final String Logout = "Logout";
+	
 
 
 	//---------------------Customer Strings Start--------------------------
@@ -108,7 +109,6 @@ public class DisplayOptions {
 		List<String> optionsList = new ArrayList<>();
 		optionsList.addAll(Arrays.asList(Enroll,RewardActivities,ViewWallet,RedeemPoints,CustomerLogout));
 		options.put(CustomerLanding, optionsList);
-
 
 		//Customer: Enroll in Loyalty Program
 		optionsList = new ArrayList<>();

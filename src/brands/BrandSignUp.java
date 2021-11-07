@@ -1,11 +1,8 @@
 package brands;
 
 import db.DBTasks;
-<<<<<<< HEAD:src/models/BrandSignUp.java
 
-=======
 import models.Brand;
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4:src/brands/BrandSignUp.java
 import util.DisplayOptions;
 import util.Input;
 import util.Login;
@@ -46,7 +43,7 @@ public class BrandSignUp {
 					
 				DBTasks.insertBrandLoginData(query, brandObj);
 				
-				System.out.println("Registered successfully !!!!1");
+				System.out.println("Registered successfully !!!!");
 				
 				new Login().takeInput();
 				

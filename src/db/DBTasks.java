@@ -5,9 +5,11 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import models.Activity;
 import models.Brand;
 import models.Customer;
 import models.RegularLoyaltyProgram;
+import models.Reward;
 import models.TierLoyaltyProgram;
 import util.AppData;
 import util.Login;
@@ -137,6 +139,40 @@ public class DBTasks {
 
 	}
 
+	public static Brand getBrandInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+			
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, userName);
+			
+			rs = stmt.executeQuery();
+			
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding brand is not present !!!");
+				
+				return null;
+			}
+			
+			Brand brandObj = new Brand();
+			
+			brandObj.setBrandName(rs.getString("name"));
+			
+			brandObj.setAddress(rs.getString("address"));
+			
+			brandObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return brandObj;
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}	
 
 
 	public static void insertIntoCustomersToBrands(int customerId, int brandId) throws Exception {
@@ -156,11 +192,13 @@ public class DBTasks {
 		}
 		catch(Exception e)
 		{
+
+			return;
 			System.out.println(e.toString());
 
 			throw new Exception(e);
 		}
-	}
+	}	
 
 
 	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
@@ -172,6 +210,7 @@ public class DBTasks {
 
 
 	}
+	
 
 	public static Integer getCustomerIdByUserId(int userId) throws Exception {
 
@@ -212,7 +251,6 @@ public class DBTasks {
 
 		return false;
 	}
-
 
 	public static List<String[]> getBrandLoyaltyPrograms(int customerId) throws SQLException {
 
@@ -485,6 +523,63 @@ public class DBTasks {
 				// System.out.println("There are no rewards present for the selected brand, please select another brand. ");
 				return null;
 			}
+			
+			Customer custObj = new Customer();
+			
+			custObj.setCustomerName(rs.getString("name"));
+			
+			custObj.setAddress(rs.getString("address"));
+			
+			custObj.setContactNumber(rs.getInt("contact_number"));
+			
+			return custObj;
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	public static void insertActivityData(String query, Activity actObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+
+			stmt.setString(1, actObj.getActivityName());
+			
+			stmt.setString(2, actObj.getActivityCode());
+			
+			stmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
+		}
+	}
+	
+	public static void insertRewardData(String query, Reward rewObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, rewObj.getRewardName());
+			
+			stmt.setString(2, rewObj.getRewardCode());
+			
+			stmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
 
 			List<String[]> list = new ArrayList<String[]>();
 
@@ -541,6 +636,13 @@ public class DBTasks {
 		{
 			String query = "select loyalty_program_id from regular_loyalty_programs where brand_id = ?";
 			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, String.valueOf(customerId));
+			
+			stmt.setString(2,  String.valueOf(brandId));
+			
+			stmt.executeUpdate();
+			
 			stmt.setInt(1,brandId);
 			rs = stmt.executeQuery();
 
@@ -549,6 +651,20 @@ public class DBTasks {
 		}
 		catch (Exception e)
 		{
+			return;
+		}
+	}
+	
+	
+	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
+		
+		String query = "select * from brands";
+		
+		rs = stmt.executeQuery();
+
+		return rs;
+	
+	}	
 			return 0;
 		}
 	}

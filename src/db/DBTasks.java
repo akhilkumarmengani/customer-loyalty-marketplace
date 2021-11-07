@@ -2,9 +2,11 @@ package db;
 
 import java.sql.*;
 
+import models.Activity;
 import models.Brand;
 import models.Customer;
 import models.RegularLoyaltyProgram;
+import models.Reward;
 import util.Login;
 
 public class DBTasks {
@@ -131,7 +133,6 @@ public class DBTasks {
 		}
 		
 	}
-<<<<<<< HEAD
 
 	public static Brand getBrandInfo(String userName)
 	{
@@ -161,28 +162,29 @@ public class DBTasks {
 			brandObj.setContactNumber(rs.getInt("contact_number"));
 			
 			return brandObj;
-=======
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}			
+
 	
 	public static void insertRegularLoyaltyData(String query, RegularLoyaltyProgram regularLPObj) throws Exception
 	{
 		try
 		{
-			
-			
 			stmt = conn.prepareStatement(query);
 			
 			stmt.setInt(1, regularLPObj.getBrandId());
 			
 			stmt.executeUpdate();
-			
-			
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
-			
+
 		}
 		catch(Exception e)
 		{
-<<<<<<< HEAD
-			return null;
+
+			return;
 		}
 	}
 	
@@ -214,7 +216,50 @@ public class DBTasks {
 			custObj.setContactNumber(rs.getInt("contact_number"));
 			
 			return custObj;
-=======
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	public static void insertActivityData(String query, Activity actObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+
+			stmt.setString(1, actObj.getActivityName());
+			
+			stmt.setString(2, actObj.getActivityCode());
+			
+			stmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			
+			throw new Exception(e);
+		}
+	}
+	
+	public static void insertRewardData(String query, Reward rewObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+			
+			stmt.setString(1, rewObj.getRewardName());
+			
+			stmt.setString(2, rewObj.getRewardCode());
+			
+			stmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
 			System.out.println(e.toString());
 			
 			throw new Exception(e);
@@ -232,79 +277,22 @@ public class DBTasks {
 			stmt.setString(2,  String.valueOf(brandId));
 			
 			stmt.executeUpdate();
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 			
 		}
 		catch(Exception e)
 		{
-<<<<<<< HEAD
-			return null;
+			return;
 		}
 	}
-
-
-=======
-			System.out.println(e.toString());
-			
-			throw new Exception(e);
-		}
-	}			
 	
 	
 	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
+		
 		String query = "select * from brands";
 		
 		rs = stmt.executeQuery();
 
 		return rs;
 	
-	
 	}	
-//	
-//	public static void insertBrand(String query, Brand brand)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setLong(1, brand.getBrandId());
-//			
-//			stmt.setString(2, brand.getName());
-//			
-//			stmt.setString(3, brand.getAddress());
-//			
-//			stmt.setDate(4, brand.getJoinDate());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
-//	
-//	public static void insertCustomer(String query, Customer custObj)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setInt(1, custObj.getCustomerId());
-//			
-//			stmt.setString(2, custObj.getName());
-//			
-//			stmt.setString(3, custObj.getAddress());
-//			
-//			stmt.setInt(4, custObj.getPhoneNumber());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
 }

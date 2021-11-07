@@ -1,11 +1,8 @@
 package models;
 
-import java.util.Scanner;
-
 import db.DBTasks;
 import util.DisplayOptions;
 import util.Input;
-import util.Login;
 
 public class AdminLanding {
 	
@@ -189,11 +186,78 @@ public class AdminLanding {
 	
 	public static void addActivityType()
 	{
+		Activity actObj = null;
 		
+		while(true)
+		{
+			actObj = new Activity();
+			
+			if(!Input.takeActivityInput(actObj)) continue;
+						
+			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddActivityType));
+
+			int option = DisplayOptions.getSc().nextInt();
+			
+			if(option < 1 || option > 2)
+			{
+				System.out.println("Invalid Option"); continue;
+			}
+			if(option == 2) return;
+		
+			try
+			{
+				String query = "insert into activities(activity_name, activity_code) "
+						+ "values (?,?)";
+					
+				DBTasks.insertActivityData(query, actObj);
+				
+				System.out.println("Added activity successfully !!!");
+				
+			
+			}
+			catch(Exception e)
+			{
+				continue;
+			}
+		}
 	}
 	
 	public static void addRewardType()
 	{
+		Reward rewObj = null;
+		
+		while(true)
+		{
+			rewObj = new Reward();
+			
+			if(!Input.takeRewardInput(rewObj)) continue;
+						
+			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddRewardType));
+
+			int option = DisplayOptions.getSc().nextInt();
+			
+			if(option < 1 || option > 2)
+			{
+				System.out.println("Invalid Option"); continue;
+			}
+			if(option == 2) return;
+		
+			try
+			{
+				String query = "insert into reward_categories(reward_name, reward_category_code) "
+						+ "values (?,?)";
+					
+				DBTasks.insertRewardData(query, rewObj);
+				
+				System.out.println("Added reward successfully !!!");
+				
+			
+			}
+			catch(Exception e)
+			{
+				continue;
+			}
+		}
 		
 	}
 	

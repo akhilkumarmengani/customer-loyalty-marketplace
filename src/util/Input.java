@@ -1,8 +1,10 @@
 package util;
 import java.util.*;
 
+import models.Activity;
 import models.Brand;
 import models.Customer;
+import models.Reward;
 
 public class Input {
 	
@@ -137,6 +139,70 @@ public class Input {
 			if(!custObj.getPassWord().equals(passwd))
 			{
 				System.out.println("Passwords don't match, try again !!!!");
+				return false;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Invalid Input !!!!");
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public static boolean takeActivityInput(Activity actObj)
+	{
+		try
+		{
+			System.out.println("Enter activity details !!!!!");
+			
+			Scanner sc = DisplayOptions.getSc();
+			
+			System.out.println("A: Activity Name");
+			
+			actObj.setActivityName(sc.next());
+			
+			System.out.println("B: Activity Code");
+			
+			actObj.setActivityCode(sc.next());
+			
+			if(null == actObj.getActivityName() || "".equals(actObj.getActivityName())
+					|| null == actObj.getActivityCode() || "".equals(actObj.getActivityCode()))
+			{
+				System.out.println("Invalid Input !!!!");
+				return false;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Invalid Input !!!!");
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public static boolean takeRewardInput(Reward rewObj)
+	{
+		try
+		{
+			System.out.println("Enter activity details !!!!!");
+			
+			Scanner sc = DisplayOptions.getSc();
+			
+			System.out.println("A: Reward Name");
+			
+			rewObj.setRewardName(sc.next());
+			
+			System.out.println("B: Reward Code");
+			
+			rewObj.setRewardCode(sc.next());
+			
+			if(null == rewObj.getRewardName() || "".equals(rewObj.getRewardName())
+					|| null == rewObj.getRewardCode() || "".equals(rewObj.getRewardCode()))
+			{
+				System.out.println("Invalid Input !!!!");
 				return false;
 			}
 		}

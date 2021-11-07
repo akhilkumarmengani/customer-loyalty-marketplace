@@ -13,18 +13,18 @@ import util.AppData;
 import util.Login;
 
 public class DBTasks {
-	
+
 	public static final String jdbcURL = "jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl01";
-	
+
 	public static final String userName = "smulkur";
-	
+
 	public static final String passWord = "abcd1234";
-	
+
 	public static Connection conn;
-	
-    public static PreparedStatement stmt;
-    
-    public static ResultSet rs;
+
+	public static PreparedStatement stmt;
+
+	public static ResultSet rs;
 
 	public static Connection getConn() {
 		return conn;
@@ -53,183 +53,92 @@ public class DBTasks {
 	public static String getPassword() {
 		return passWord;
 	}
-	
+
 	public static ResultSet executeQueryForLogin(String query, Login login)
 	{
 		try
 		{
 			stmt = conn.prepareStatement(query);
-			
+
 			stmt.setString(1, login.getUserName());
-			
+
 			stmt.setString(2, login.getPassWord());
-		
+
 			rs = stmt.executeQuery();
-			
+
 			return rs;
-			
+
 		}
 		catch(Exception e)
 		{
 			return  null;
 		}
 	}
-	
+
 	public static void insertBrandLoginData(String query, Brand brandObj) throws Exception
 	{
 		try
 		{
 			stmt = conn.prepareStatement(query);
-			
+
 
 			stmt.setString(1, brandObj.getUserName());
-			
+
 			stmt.setString(2, brandObj.getPassWord());
-			
+
 			stmt.setString(3, "BRAND");
-			
+
 			stmt.setString(4, brandObj.getBrandName());
-			
+
 			stmt.setString(5, brandObj.getAddress());
-			
+
 			stmt.setInt(6, brandObj.getContactNumber());
 
 			stmt.executeUpdate();
-			
+
 		}
 		catch(Exception e)
 		{
 			System.out.println(e.toString());
-			
+
 			throw new Exception(e);
 		}
-		
+
 	}
-	
+
 	public static void insertCustomerLoginData(String query, Customer custObj) throws Exception
 	{
 		try
 		{
 			stmt = conn.prepareStatement(query);
-			
+
 
 			stmt.setString(1, custObj.getUserName());
-			
+
 			stmt.setString(2, custObj.getPassWord());
-			
+
 			stmt.setString(3, "CUSTOMER");
-			
+
 			stmt.setString(4, custObj.getCustomerName());
-			
+
 			stmt.setString(5, custObj.getAddress());
-			
+
 			stmt.setInt(6, custObj.getContactNumber());
 
 			stmt.executeUpdate();
-			
+
 		}
 		catch(Exception e)
 		{
 			System.out.println(e.toString());
-			
+
 			throw new Exception(e);
 		}
-		
-	}
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
+	}
 
-	public static Brand getBrandInfo(String userName)
-	{
-		try
-		{
-			String query = "select name, address, contact_number from users where user_name = ?";
-			
-			stmt = conn.prepareStatement(query);
-			
-			stmt.setString(1, userName);
-			
-			rs = stmt.executeQuery();
-			
-			if(rs == null || !rs.next())
-			{
-				System.out.println("Corresponding brand is not present !!!");
-				
-				return null;
-			}
-			
-			Brand brandObj = new Brand();
-			
-			brandObj.setBrandName(rs.getString("name"));
-			
-			brandObj.setAddress(rs.getString("address"));
-			
-			brandObj.setContactNumber(rs.getInt("contact_number"));
-			
-			return brandObj;
-=======
-	
-	public static void insertRegularLoyaltyData(String query, RegularLoyaltyProgram regularLPObj) throws Exception
-	{
-		try
-		{
-			
-			
-			stmt = conn.prepareStatement(query);
-			
-			stmt.setInt(1, regularLPObj.getBrandId());
-			
-			stmt.executeUpdate();
-			
-			
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
-			
-		}
-		catch(Exception e)
-		{
-<<<<<<< HEAD
-			return null;
-		}
-	}
-	
-	public static Customer getCustomerInfo(String userName)
-	{
-		try
-		{
-			String query = "select name, address, contact_number from users where user_name = ?";
-			
-			stmt = conn.prepareStatement(query);
-			
-			stmt.setString(1, userName);
-			
-			rs = stmt.executeQuery();
-			
-			if(rs == null || !rs.next())
-			{
-				System.out.println("Corresponding customer is not present !!!");
-				
-				return null;
-			}
-			
-			Customer custObj = new Customer();
-			
-			custObj.setCustomerName(rs.getString("name"));
-			
-			custObj.setAddress(rs.getString("address"));
-			
-			custObj.setContactNumber(rs.getInt("contact_number"));
-			
-			return custObj;
-=======
-			System.out.println(e.toString());
-			
-			throw new Exception(e);
-		}
-	}
->>>>>>> c109390a77226e8e443ba62bf3b6f2144e9dfd65
-	
+
+
 	public static void insertIntoCustomersToBrands(int customerId, int brandId) throws Exception {
 		System.out.println(customerId+" "+brandId);
 
@@ -237,85 +146,76 @@ public class DBTasks {
 		try
 		{
 			stmt = conn.prepareStatement(query);
-			
+
 			stmt.setString(1, String.valueOf(customerId));
-			
+
 			stmt.setString(2,  String.valueOf(brandId));
-			
+
 			stmt.executeUpdate();
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
-			
+
 		}
 		catch(Exception e)
 		{
-<<<<<<< HEAD
-			return null;
+			System.out.println(e.toString());
+
+			throw new Exception(e);
 		}
 	}
 
 
-=======
-			System.out.println(e.toString());
-			
-			throw new Exception(e);
-		}
-	}			
-	
-	
 	public static ResultSet getAllBrandLoyaltyPrograms() throws Exception{
 		String query = "select * from brands";
-		
+
 		rs = stmt.executeQuery(query);
 
 		return rs;
-	
-	
-<<<<<<< HEAD
+
+
 	}
-	
+
 	public static Integer getCustomerIdByUserId(int userId) throws Exception {
-		
+
 		Integer customerId = null;
-		
+
 		String query = "select *  from customers where user_id = ?";
-		
+
 		stmt = conn.prepareStatement(query);
-		
+
 		stmt.setString(1, String.valueOf(userId));
-		
+
 		ResultSet rs = stmt.executeQuery();
-		
+
 		if(rs.next()) {
 			customerId = rs.getInt("CUSTOMER_ID");
 		}
-		
+
 		return customerId;
 	}
-	
+
 	public static boolean isEnrolledInLoyaltyProgram(int customerId, int brandId) throws SQLException {
 		System.out.println(customerId+ " "+ brandId);
 
-		
+
 		String query = "select * from customers_to_brands where customer_id = ? and brand_id = ?";
-		
+
 		stmt = conn.prepareStatement(query);
-		
+
 		stmt.setString(1, String.valueOf(customerId));
-		
+
 		stmt.setString(2, String.valueOf(brandId));
-		
+
 		ResultSet rs = stmt.executeQuery();
-		
+
 		if(rs.next()) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	
+
+
 	public static List<String[]> getBrandLoyaltyPrograms(int customerId) throws SQLException {
-		
+
 		String query = "select a.brand_id,b.name from customers_to_brands a,brands b " +
 				"where a.customer_id = ? and a.brand_id = b.brand_id";
 
@@ -343,15 +243,15 @@ public class DBTasks {
 		catch (Exception ex){
 			System.out.println(ex.toString()+" "+ex.getMessage());
 		}
-	
+
 		return null;
 	}
-	
+
 	public static List<String[]> getActivitiesForBrand(int brandId) throws SQLException{
 
 		String query = "select a.activity_code,a.activity_name from activities a,brands_loyalty_programs_to_activities b " +
 				"where b.brand_id = ? and a.activity_code = b.activity_code";
-				
+
 		try {
 
 			stmt = conn.prepareStatement(query);
@@ -421,66 +321,66 @@ public class DBTasks {
 
 	public static int insertIntoCustomerToBLPActivities(int customerId, int brandId, String activityCode,
 														int giftCardValue, int numberOfInstances
-														) throws SQLException {
+	) throws SQLException {
 		try{
-		String query = "select  c.customer_id as customer_id,\n" +
-				"        a.brand_id as brand_id,\n" +
-				"        a.loyalty_program_id as loyalty_program_id,\n" +
-				"        c.wallet_id as wallet_id, \n" +
-				"        a.activity_code as activity_code,\n" +
-				"		 a.activity_value * nvl(b.multiplier,1) as POINTS_EARNED, \n" +
-				"        a.u_id as u_id\n" +
-				"from    brands_loyalty_programs_to_activities a, \n" +
-				"        tiered_loyalty_programs b, \n" +
-				"        customer_wallet_to_customers_brands c\n" +
-				"where   a.brand_id = ?\n" +
-				"        and a.activity_code = ?\n" +
-				"        and c.brand_id = a.brand_id\n" +
-				"        and c.customer_id = ?\n" +
-				"        and c.brand_id = b.brand_id (+) \n" +
-				"        and c.loyalty_program_id = b.loyalty_program_id (+) \n" +
-				"        and c.loyalty_program_level = b.loyalty_program_level (+) \n" +
-				"order by version_number desc \n" +
-				"fetch next 1 rows only";
+			String query = "select  c.customer_id as customer_id,\n" +
+					"        a.brand_id as brand_id,\n" +
+					"        a.loyalty_program_id as loyalty_program_id,\n" +
+					"        c.wallet_id as wallet_id, \n" +
+					"        a.activity_code as activity_code,\n" +
+					"		 a.activity_value * nvl(b.multiplier,1) as POINTS_EARNED, \n" +
+					"        a.u_id as u_id\n" +
+					"from    brands_loyalty_programs_to_activities a, \n" +
+					"        tiered_loyalty_programs b, \n" +
+					"        customer_wallet_to_customers_brands c\n" +
+					"where   a.brand_id = ?\n" +
+					"        and a.activity_code = ?\n" +
+					"        and c.brand_id = a.brand_id\n" +
+					"        and c.customer_id = ?\n" +
+					"        and c.brand_id = b.brand_id (+) \n" +
+					"        and c.loyalty_program_id = b.loyalty_program_id (+) \n" +
+					"        and c.loyalty_program_level = b.loyalty_program_level (+) \n" +
+					"order by version_number desc \n" +
+					"fetch next 1 rows only";
 
-		stmt = conn.prepareStatement(query);
+			stmt = conn.prepareStatement(query);
 
-		stmt.setInt(1, brandId);
-		stmt.setString(2, activityCode);
-		stmt.setInt(3,customerId);
+			stmt.setInt(1, brandId);
+			stmt.setString(2, activityCode);
+			stmt.setInt(3,customerId);
 
-		ResultSet rs = stmt.executeQuery();
+			ResultSet rs = stmt.executeQuery();
 
-		if (rs == null || !rs.next()) {
-			return -1;
-		}
+			if (rs == null || !rs.next()) {
+				return -1;
+			}
 
-		int cId = rs.getInt(1);
-		int bId = rs.getInt(2);
-		int lpId = rs.getInt(3);
-		int wId = rs.getInt(4);
-		String actCode = rs.getString(5);
-		int ptsEarned = rs.getInt(6);
-		int uId = rs.getInt(7);
+			int cId = rs.getInt(1);
+			int bId = rs.getInt(2);
+			int lpId = rs.getInt(3);
+			int wId = rs.getInt(4);
+			String actCode = rs.getString(5);
+			int ptsEarned = rs.getInt(6);
+			int uId = rs.getInt(7);
 
-		if(giftCardValue>0){
-			String updateQuery = "update customers_to_blp_rewards " +
-					"set number_of_instances = ? where customer_id = ? and brand_id = ? and reward_category_code = ?";
+			if(giftCardValue>0){
+				String updateQuery = "update customers_to_blp_rewards " +
+						"set number_of_instances = ? where customer_id = ? and brand_id = ? and reward_category_code = ?";
 
-			stmt = conn.prepareStatement(updateQuery);
+				stmt = conn.prepareStatement(updateQuery);
 
-			stmt.setInt(1, numberOfInstances-1);
-			stmt.setInt(2,customerId);
-			stmt.setInt(3,brandId);
-			stmt.setString(4,"REW101");
+				stmt.setInt(1, numberOfInstances-1);
+				stmt.setInt(2,customerId);
+				stmt.setInt(3,brandId);
+				stmt.setString(4,"REW101");
 
-			stmt.executeUpdate();
+				stmt.executeUpdate();
 
-		}
+			}
 
 
-		long millis = System.currentTimeMillis();
-		Date date = new java.sql.Date(millis);
+			long millis = System.currentTimeMillis();
+			Date date = new java.sql.Date(millis);
 
 //
 //		SimpleDateFormat sdf = new SimpleDateFormat(
@@ -499,59 +399,59 @@ public class DBTasks {
 
 
 
-		String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
-				" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
+			String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
+					" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
 
-		stmt = conn.prepareStatement(selectQuery);
+			stmt = conn.prepareStatement(selectQuery);
 
-		stmt.setInt(1, customerId);
-		stmt.setInt(2, brandId);
-		stmt.setString(3, "ACT101");
-		stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
-
-
-		rs = stmt.executeQuery();
+			stmt.setInt(1, customerId);
+			stmt.setInt(2, brandId);
+			stmt.setString(3, "ACT101");
+			stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
 
 
-		if(rs!= null && rs.next())
-		{
-			String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
-					"and activity_code = ? and performed_date = ?";
-
-			stmt = conn.prepareStatement(updateQuery);
-
-			stmt.setInt(1,rs.getInt("points_earned") + ptsEarned - giftCardValue);
-			stmt.setInt(2,customerId);
-			stmt.setInt(3,brandId);
-			stmt.setString(4,"ACT101");
-			stmt.setDate(5,date);
-
-			stmt.executeUpdate();
+			rs = stmt.executeQuery();
 
 
-		}
-		else {
-			String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned,performed_date,u_id) \n" +
-					"values(?,?,?,?,?,?,?,?)";
+			if(rs!= null && rs.next())
+			{
+				String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
+						"and activity_code = ? and performed_date = ?";
+
+				stmt = conn.prepareStatement(updateQuery);
+
+				stmt.setInt(1,rs.getInt("points_earned") + ptsEarned - giftCardValue);
+				stmt.setInt(2,customerId);
+				stmt.setInt(3,brandId);
+				stmt.setString(4,"ACT101");
+				stmt.setDate(5,date);
+
+				stmt.executeUpdate();
 
 
-			stmt = conn.prepareStatement(insertQuery);
-
-			stmt.setInt(1, cId);
-			stmt.setInt(2, bId);
-			stmt.setInt(3, lpId);
-			stmt.setInt(4, wId);
-			stmt.setString(5, actCode);
-			stmt.setInt(6, ptsEarned-giftCardValue);
-			stmt.setDate(7,date);
-			stmt.setInt(8,uId);
-
-			stmt.executeUpdate();
-		}
+			}
+			else {
+				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned,performed_date,u_id) \n" +
+						"values(?,?,?,?,?,?,?,?)";
 
 
+				stmt = conn.prepareStatement(insertQuery);
 
-		return ptsEarned;
+				stmt.setInt(1, cId);
+				stmt.setInt(2, bId);
+				stmt.setInt(3, lpId);
+				stmt.setInt(4, wId);
+				stmt.setString(5, actCode);
+				stmt.setInt(6, ptsEarned-giftCardValue);
+				stmt.setDate(7,date);
+				stmt.setInt(8,uId);
+
+				stmt.executeUpdate();
+			}
+
+
+
+			return ptsEarned;
 
 		}
 		catch (Exception ex){
@@ -560,8 +460,8 @@ public class DBTasks {
 
 		return -1;
 	}
-	
-	
+
+
 	public static List<String[]> getAllCurrentRewardsForABrand(int brandId)
 	{
 		try {
@@ -1341,54 +1241,4 @@ public class DBTasks {
 			throw new Exception(e);
 		}
 	}
-=======
-	}	
-//	
-//	public static void insertBrand(String query, Brand brand)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setLong(1, brand.getBrandId());
-//			
-//			stmt.setString(2, brand.getName());
-//			
-//			stmt.setString(3, brand.getAddress());
-//			
-//			stmt.setDate(4, brand.getJoinDate());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
-//	
-//	public static void insertCustomer(String query, Customer custObj)
-//	{
-//		try
-//		{
-//			stmt = conn.prepareStatement(query);
-//			
-//			stmt.setInt(1, custObj.getCustomerId());
-//			
-//			stmt.setString(2, custObj.getName());
-//			
-//			stmt.setString(3, custObj.getAddress());
-//			
-//			stmt.setInt(4, custObj.getPhoneNumber());
-//			
-//			stmt.executeUpdate();
-//			
-//		}
-//		catch(Exception e)
-//		{
-//			return;
-//		}
-//	}
->>>>>>> df031a0a9c777117d072d057b184f6e421d09db4
->>>>>>> c109390a77226e8e443ba62bf3b6f2144e9dfd65
 }

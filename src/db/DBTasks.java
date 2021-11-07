@@ -5,10 +5,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import models.Brand;
-import models.Customer;
-import models.RegularLoyaltyProgram;
-import models.TierLoyaltyProgram;
+import models.*;
 import util.AppData;
 import util.Login;
 
@@ -135,6 +132,121 @@ public class DBTasks {
 			throw new Exception(e);
 		}
 
+	}
+
+
+	public static Brand getBrandInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+
+			stmt = conn.prepareStatement(query);
+
+			stmt.setString(1, userName);
+
+			rs = stmt.executeQuery();
+
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding brand is not present !!!");
+
+				return null;
+			}
+
+			Brand brandObj = new Brand();
+
+			brandObj.setBrandName(rs.getString("name"));
+
+			brandObj.setAddress(rs.getString("address"));
+
+			brandObj.setContactNumber(rs.getInt("contact_number"));
+
+			return brandObj;
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+
+
+	public static Customer getCustomerInfo(String userName)
+	{
+		try
+		{
+			String query = "select name, address, contact_number from users where user_name = ?";
+
+			stmt = conn.prepareStatement(query);
+
+			stmt.setString(1, userName);
+
+			rs = stmt.executeQuery();
+
+			if(rs == null || !rs.next())
+			{
+				System.out.println("Corresponding customer is not present !!!");
+
+				return null;
+			}
+
+			Customer custObj = new Customer();
+
+			custObj.setCustomerName(rs.getString("name"));
+
+			custObj.setAddress(rs.getString("address"));
+
+			custObj.setContactNumber(rs.getInt("contact_number"));
+
+			return custObj;
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+
+	public static void insertActivityData(String query, Activity actObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+
+
+			stmt.setString(1, actObj.getActivityName());
+
+			stmt.setString(2, actObj.getActivityCode());
+
+			stmt.executeUpdate();
+
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+
+			throw new Exception(e);
+		}
+	}
+
+	public static void insertRewardData(String query, Reward rewObj) throws Exception
+	{
+		try
+		{
+			stmt = conn.prepareStatement(query);
+
+			stmt.setString(1, rewObj.getRewardName());
+
+			stmt.setString(2, rewObj.getRewardCode());
+
+			stmt.executeUpdate();
+
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+
+			throw new Exception(e);
+		}
 	}
 
 

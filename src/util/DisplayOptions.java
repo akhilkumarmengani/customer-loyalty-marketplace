@@ -70,7 +70,7 @@ public class DisplayOptions {
 	public static final String RewardsSelection  = "Rewards Selection";
 
 
-	//---------------------Customer Strings Start--------------------------
+	//---------------------Customer Strings End--------------------------
 
 	// Brand : Strings
 	public static final String BrandLanding = "Brand: Landing";

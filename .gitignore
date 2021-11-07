@@ -2,6 +2,5 @@
 *.class
 # classpath
 .classpath
-/bin
 
-bin
+bin/

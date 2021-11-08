@@ -13,12 +13,13 @@
 
 ## **Installation Steps**
 
-Unzip the JAR provided in step 4( [jar]() ). Use IntelliJ/Eclipse IDE or any other framework which can run compile and run Java files.
-Steps to run the application:
+Unzip the JAR provided in step 4( [jar]() ). Use IntelliJ/Eclipse IDE or any other framework which can compile and run Java files.<br>
+Please follow the steps below to run the application:
 1. Open the folder in the IDE
 2. Navigate to the ```customer-loyalty-program/src/main/```
-3. Right Click on the file and run as Java Application.
-4. User will see the options in the terminal
+3. Right Click on the file and run as Java Application. <br> 
+
+User will now see the options in the terminal.
 
 
 **Note:** 

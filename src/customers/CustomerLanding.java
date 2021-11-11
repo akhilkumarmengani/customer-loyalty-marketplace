@@ -354,6 +354,8 @@ public class CustomerLanding {
 				}
 				case 5:
 				{
+					AppData.customerLogout = true;
+					System.out.println("Log out of Customer Program Marketplace");
 					return;
 				}
 				

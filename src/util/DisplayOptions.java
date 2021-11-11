@@ -93,10 +93,10 @@ public class DisplayOptions {
 	public static final String LeaveReview = "Leave a review";
 	public static final String ReferFriend = "Refer a friend";
 
-	public static final String GiftCard = "Gift_Card";
-	public static final String FreeProduct = "Free_Product";
+	public static final String GiftCard = "Gift Card";
+	public static final String FreeProduct = "Free Product";
 
-	public static final String TiersSetup = "Tiers_Setup";
+	public static final String TiersSetup = "Tiers Setup";
 
 	public static final String SetUp = "Setup";
 

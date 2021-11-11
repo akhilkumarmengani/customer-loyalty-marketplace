@@ -23,7 +23,7 @@ public class BrandsUtil {
 		}
 		resultSet = DBTasks.getTierProgramRec(AppData.brandId);
 		if (resultSet != null && resultSet.next()) {
-			System.out.println(resultSet.getInt("LOYALTY_PROGRAM_ID"));
+			//System.out.println(resultSet.getInt("LOYALTY_PROGRAM_ID"));
 			AppData.tieredLoyaltyProgram = true;
 		}
 	}

@@ -25,6 +25,15 @@ public class BrandRewards {
 				rewardCategoriesAvailable.add(rewardCategories.getString("REWARD_CATEGORY_CODE"));
 				rewardCategoriesNamesAvailable.add(rewardCategories.getString("REWARD_NAME"));
 			}
+			ResultSet rs = DBTasks.getRewardCategoriesofBrand();
+			while (rs.next()) {
+				rewardCategoriesAvailable.remove(rs.getString("REWARD_CATEGORY_CODE"));
+				rewardCategoriesNamesAvailable.remove(rs.getString("REWARD_NAME"));
+			}
+			if (rewardCategoriesAvailable.size() == 0) {
+				System.out.println("All reward categories already added");
+				return;
+			}
 			rewardCategoriesNamesAvailable.add("Go back");
 		} catch (Exception e) {
 			System.out.println("Error while fetching all reward categories");
@@ -79,13 +88,16 @@ public class BrandRewards {
 				rewardCategoryCodes.add(rs.getString("REWARD_CATEGORY_CODE"));
 				rewardCategoryNames.add(rs.getString("REWARD_NAME"));
 			}
+			if (rewardCategoryCodes.size() == 0) {
+				System.out.println("Please add atleast one reward category to add an RR rule");
+				return;
+			}
 			rewardCategoryNames.add("Go back");
 			while (true) {
 				DisplayOptions.printOptions(rewardCategoryNames);
 				int option = DisplayOptions.getSc().nextInt();
 
 				if (option < 1 || option > rewardCategoryNames.size()) {
-					System.out.println("Invalid Option");
 					continue;
 				}
 

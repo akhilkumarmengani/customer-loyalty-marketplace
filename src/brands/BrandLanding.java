@@ -16,47 +16,49 @@ public class BrandLanding {
 			}
 
 			switch (option) {
-			case 1: {
-				DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddLoyaltyProgram));
+				case 1: {
+					while (true) {
+						DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddLoyaltyProgram));
 
-				option = DisplayOptions.getSc().nextInt();
+						int option1 = DisplayOptions.getSc().nextInt();
 
-				if (option < 1 || option > 3) {
-					System.out.println("Invalid Option");
+						if (option1 < 1 || option1 > 3) {
+							System.out.println("Invalid Option");
+							continue;
+						}
+						if (option1 == 1) {
+							new AddLoyaltyProgram().addRegular();
+						} else if (option1 == 2) {
+							new AddLoyaltyProgram().addTier();
+						} else if (option1 == 3)
+							break;
+					}
 					continue;
 				}
-				if (option == 1) {
-					new AddLoyaltyProgram().addRegular();
-				} else if (option == 2) {
-					new AddLoyaltyProgram().addTier();
-				} else if (option == 3)
+				case 2: {
+					new BrandActivities().addOrUpdateRERules(1);
+					continue;
+				}
+				case 3: {
+					new BrandActivities().addOrUpdateRERules(2);
+					continue;
+				}
+				case 4: {
+					new BrandRewards().addOrUpdateRRRules(1);
+					continue;
+				}
+				case 5: {
+					new BrandRewards().addOrUpdateRRRules(2);
+					continue;
+				}
+				case 6: {
+					new BrandValidation().validate();
+					continue;
+				}
+				case 7: {
+					AppData.clearBrandVariables();
 					return;
-				continue;
-			}
-			case 2: {
-				new BrandActivities().addOrUpdateRERules(1);
-				continue;
-			}
-			case 3: {
-				new BrandActivities().addOrUpdateRERules(2);
-				continue;
-			}
-			case 4: {
-				new BrandRewards().addOrUpdateRRRules(1);
-				continue;
-			}
-			case 5: {
-				new BrandRewards().addOrUpdateRRRules(2);
-				continue;
-			}
-			case 6: {
-				new BrandValidation().validate();
-				continue;
-			}
-			case 7: {
-				AppData.clearBrandVariables();
-				return;
-			}
+				}
 
 			}
 		}

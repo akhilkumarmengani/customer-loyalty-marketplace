@@ -9,99 +9,108 @@ import db.DBTasks;
 import models.AdminLanding;
 
 public class Login {
-	
-		public String userName;
-		public String passWord;
-		
-		public void takeInput()
-		{
-			int option;
-			
-			while(true)
-			{
-				if(!Input.takeLoginInput(this)) continue;
-				
-				break;
-			}
-			
-			while(true)
-			{
-			
-				DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.Login));
-				
-				option = DisplayOptions.getSc().nextInt();
-				
-				if(option < 1 || option > 2)
-				{
-					System.out.println("Invalid Option"); continue;
-				}
-				
-				if(option == 2) return;
-				
-				try
-				{
-					String Query = "select * from users "
-							+ "where USER_NAME = ? and PASSWD = ?";
-					
-					ResultSet rs = DBTasks.executeQueryForLogin(Query, this);
-					
-					if(rs == null || !rs.next())
-					{
-						System.out.println("Invalid Login !!!!"); continue;
-					}
-					
-					System.out.println("Login Successful !!!!");
-					
-					String login_type = rs.getString("LOGIN_TYPE");
-//					System.out.println(login_type);
-					
-					int user_id = Integer.valueOf(rs.getInt("USER_ID"));
-//					System.out.println(user_id);
 
-					switch(login_type)
+	public String userName;
+	public String passWord;
+
+	public void takeInput()
+	{
+		int option;
+
+		while(true)
+		{
+			Input.takeLoginInput(this);
+
+			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.Login));
+
+			option = DisplayOptions.getSc().nextInt();
+
+			if(option < 1 || option > 2)
+			{
+				System.out.println("Invalid Option"); continue;
+			}
+
+			if(option == 2) return;
+
+			try
+			{
+				String Query = "select * from users "
+						+ "where USER_NAME = ? and PASSWD = ?";
+
+				ResultSet rs = DBTasks.executeQueryForLogin(Query, this);
+
+				if(rs == null || !rs.next())
+				{
+					System.out.println("Invalid Login !!!!"); continue;
+				}
+
+				System.out.println("Login Successful !!!!");
+
+				String login_type = rs.getString("LOGIN_TYPE");
+
+				int user_id = Integer.valueOf(rs.getInt("USER_ID"));
+
+				switch(login_type)
+				{
+					case "ADMIN":
 					{
-						case "ADMIN":
-						{
-							new AdminLanding().takeInput();
-							return;
+						new AdminLanding().takeInput();
+						if(AppData.adminLogout){
+							AppData.adminLogout = false;
+							break;
 						}
-						case "CUSTOMER":{
-							int customerId = 
+						return;
+					}
+					case "CUSTOMER":{
+						while(true) {
+							int customerId =
 									CustomerLandingUtil.getCustomerIdByUserId(Integer.valueOf(user_id));
-//							System.out.println("Login Customer : "+customerId);
+//								System.out.println("Login Customer : "+customerId);
 							AppData.customerId = Integer.valueOf(customerId);
 							new CustomerLanding().takeInput();
+							if(AppData.customerLogout){
+								AppData.customerLogout = false;
+								break;
+							}
 						}
-						case "BRAND": {
+						return;
+					}
+					case "BRAND": {
+						while(true) {
 							BrandsUtil.initializeAllFields(this);
 							new BrandLanding().takeInput();
-							return;
+							if(AppData.brandLogout){
+								AppData.brandLogout = false;
+								break;
+							}
 						}
+						return;
 					}
 				}
-				catch(Exception e)
-				{
-					
-				}
-			
 			}
-		}
-			
-	
+			catch(Exception e)
+			{
 
-		public String getUserName() {
-			return userName;
-		}
+			}
 
-		public void setUserName(String userName) {
-			this.userName = userName;
 		}
+	}
 
-		public String getPassWord() {
-			return passWord;
-		}
 
-		public void setPassWord(String passWord) {
-			this.passWord = passWord;
-		}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
 }

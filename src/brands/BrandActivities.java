@@ -11,7 +11,6 @@ import util.DisplayOptions;
 public class BrandActivities {
 	public void takeInput() {
 		List<String> activityTypesChosen = new ArrayList<>();
-		// List<Integer> activityValues = new ArrayList<>();
 		ResultSet activities = null;
 		List<String> activitiesAvailable = new ArrayList<>();
 		List<String> activitieNamesAvailable = new ArrayList<>();
@@ -20,6 +19,15 @@ public class BrandActivities {
 			while (activities.next()) {
 				activitiesAvailable.add(activities.getString("ACTIVITY_CODE"));
 				activitieNamesAvailable.add(activities.getString("ACTIVITY_NAME"));
+			}
+			ResultSet rs = DBTasks.getActivitiesofBrand();
+			while (rs.next()) {
+				activitiesAvailable.remove(rs.getString("ACTIVITY_CODE"));
+				activitieNamesAvailable.remove(rs.getString("ACTIVITY_NAME"));
+			}
+			if (activitiesAvailable.size() == 0) {
+				System.out.println("All activity types already added");
+				return;
 			}
 			activitieNamesAvailable.add("Go back");
 		} catch (Exception e) {
@@ -36,73 +44,27 @@ public class BrandActivities {
 				continue;
 			}
 
-			for (int i = 0; i < activitiesAvailable.size() + 1; i++) {
-				if (option - 1 == activitiesAvailable.size()) {
-					for (int j = 0; j < activityTypesChosen.size(); j++) {
-						try {
+			if (option - 1 == activitiesAvailable.size()) {
+				for (int j = 0; j < activityTypesChosen.size(); j++) {
+					try {
 
-							DBTasks.insertBrandLPActivtiesRec(activityTypesChosen.get(j), -1, 1);
-						} catch (Exception e) {
-							System.out.println("Error inserting record in BLPA table");
-							return;
-						}
+						DBTasks.insertBrandLPActivtiesRec(activityTypesChosen.get(j), -1, 1);
+					} catch (Exception e) {
+						System.out.println("Error inserting record in BLPA table");
+						return;
 					}
-					return;
+				}
+				return;
+			} else {
+				if (activityTypesChosen.contains(activitiesAvailable.get(option - 1))) {
+					System.out.println("Already chosen. Please select another or select Go back ");
+					continue;
 				} else {
-					if (activityTypesChosen.contains(activitiesAvailable.get(option - 1))) {
-						System.out.println("Already chosen. Please select another or select Go back ");
-						break;
-					} else {
-						// System.out.println("Enter activity value: ");
-						// Integer value = DisplayOptions.getSc().nextInt();
-						activityTypesChosen.add(activitiesAvailable.get(option - 1));
-						// activityValues.add(value);
-						break;
-					}
+					activityTypesChosen.add(activitiesAvailable.get(option - 1));
+					continue;
 				}
 			}
 
-//			switch (option) {
-//			case 1: {
-//				if (activityTypesChosen.contains(activitiesAvailable.get(0))) {
-//					System.out.println("Already chosen. Please select another or select Go back ");
-//					continue;
-//				} else {
-//					activityTypesChosen.add(activitiesAvailable.get(0));
-//				}
-//				break;
-//			}
-//			case 2: {
-//				if (activityTypesChosen.contains(activitiesAvailable.get(1))) {
-//					System.out.println("Already chosen. Please select another or select Go back ");
-//					continue;
-//				} else {
-//					activityTypesChosen.add(activitiesAvailable.get(1));
-//				}
-//				break;
-//			}
-//			case 3: {
-//				if (activityTypesChosen.contains(activitiesAvailable.get(2))) {
-//					System.out.println("Already chosen. Please select another or select Go back ");
-//					continue;
-//				} else {
-//					activityTypesChosen.add(activitiesAvailable.get(2));
-//				}
-//				break;
-//			}
-//			case 4: {
-//				// add selected activities in table
-//				for (int i = 0; i < activityTypesChosen.size(); i++) {
-//					try {
-//						DBTasks.insertBrandLPActivtiesRec(activityTypesChosen.get(i));
-//					} catch (Exception e) {
-//						System.out.println("Error inserting record in BLPA table");
-//						return;
-//					}
-//				}
-//				break;
-//			}
-//			}
 		}
 
 	}
@@ -116,6 +78,10 @@ public class BrandActivities {
 				activityCodes.add(rs.getString("ACTIVITY_CODE"));
 				activityNames.add(rs.getString("ACTIVITY_NAME"));
 			}
+			if (activityCodes.size() == 0) {
+				System.out.println("Please add atleast one activity type to add an RE rule");
+				return;
+			}
 			activityNames.add("Go back");
 			while (true) {
 				DisplayOptions.printOptions(activityNames);
@@ -126,8 +92,7 @@ public class BrandActivities {
 					continue;
 				}
 
-				// for (int i = 0; i < activityNames.size(); i++) {
-				if (option  == activityNames.size()) {
+				if (option == activityNames.size()) {
 					return;
 				} else {
 					System.out.println("Enter activity value: ");
@@ -142,7 +107,6 @@ public class BrandActivities {
 						continue;
 					}
 				}
-				// }
 
 			}
 		} catch (SQLException e) {

@@ -1,12 +1,16 @@
 package util;
 
 public class AppData {
+
+	// Admin Data
+	public static  boolean adminLogout = false;
 	
 	
 	// Customer Data
 	public static Integer customerId = null;
 	public static String customerName = null;
 	public static String customerUserName = null;
+	public static boolean customerLogout = false;
 
 	
 	// User Data
@@ -17,6 +21,7 @@ public class AppData {
 	public static Integer brandId = null;
 	public static Integer regularLoyaltyProgramId = null;
 	public static boolean tieredLoyaltyProgram = false;
+	public static boolean brandLogout = false;
 
 
 	public static void clearBrandVariables() {

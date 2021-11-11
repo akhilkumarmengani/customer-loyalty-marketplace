@@ -66,7 +66,12 @@ public class Main {
 			}
 			finally
 			{
-				System.out.println("Terminated !!!!!");
+				Connection conn = DBTasks.getConn();
+				if (conn != null) {
+						DBTasks.resetConn();
+				}
+				System.out.println("****** You are Logged Out of Customer Loyalty Marketplace ******");
+				System.out.println();
 			}
 			
 			return;

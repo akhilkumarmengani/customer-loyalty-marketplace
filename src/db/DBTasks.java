@@ -8,6 +8,7 @@ import java.util.*;
 import models.*;
 import util.AppData;
 import util.Login;
+import models.Brand;
 
 public class DBTasks {
 
@@ -29,6 +30,10 @@ public class DBTasks {
 
 	public static void setConn(Connection conn) {
 		DBTasks.conn = conn;
+	}
+
+	public static void resetConn(){
+		conn = null;
 	}
 
 	public static ResultSet getRs() {

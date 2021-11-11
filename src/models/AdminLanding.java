@@ -1,6 +1,7 @@
 package models;
 
 import db.DBTasks;
+import util.AppData;
 import util.DisplayOptions;
 import util.Input;
 
@@ -14,7 +15,10 @@ public class AdminLanding {
 		{
 			brandObj = new Brand();
 
-			if(!Input.takeBrandSignupInput(brandObj)) continue;
+			if(!Input.takeBrandSignupInput(brandObj))
+			{
+				continue;
+			}
 
 			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddBrand));
 
@@ -53,7 +57,10 @@ public class AdminLanding {
 		{
 			custObj = new Customer();
 
-			if(!Input.takeCustomerSignupInput(custObj)) continue;
+			if(!Input.takeCustomerSignupInput(custObj))
+			{
+				continue;
+			}
 
 			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.AddCustomer));
 
@@ -308,6 +315,7 @@ public class AdminLanding {
 				}
 				case 7:
 				{
+					AppData.brandLogout = true;
 					return;
 				}
 

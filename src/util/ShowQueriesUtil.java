@@ -10,159 +10,256 @@ public class ShowQueriesUtil {
     public static PreparedStatement stmt;
     public static ResultSet rs;
 
-    public static List<String[]> executeQuery1()
+    public static String executeQuery1(String brandUserName)
     {
         try
         {
-            String query = "select  \n"
-                    + "        c.customer_id, c.name, c.address, c.contact_number \n"
-                    + "from \n"
-                    + "        customers c\n"
-                    + "minus\n"
-                    + "select \n"
-                    + "        c.customer_id, c.name, c.address, c.contact_number\n"
-                    + "from \n"
-                    + "        customers_to_brands cb, customers c, brands b\n"
-                    + "where \n"
-                    + "        cb.customer_id = c.customer_id\n"
-                    + "        and b.name = 'BRAND02'\n"
-                    + "        and b.brand_id = cb.brand_id";
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_1_6(?,?,?,?)}");
 
+            stmt.setString(1,"1");
+            stmt.setString(2,brandUserName);
 
-            stmt = DBTasks.conn.prepareStatement(query);
-            rs = stmt.executeQuery();
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
 
-            List<String[]> result = new ArrayList<>();
-
-            String[] columns = new String[4];
-            columns[0] = "customer_id"; columns[1] = "customer_name";
-            columns[2] = "address"; columns[3] = "contact_number";
-
-            result.add(columns);
-
-            if(rs == null || !rs.next()) return result;
-
-            do
-            {
-                String[] values = new String[4];
-                values[0] = String.valueOf(rs.getInt(1));
-                values[1] = rs.getString(2);
-                values[2] = rs.getString(3);
-                values[3] = String.valueOf(rs.getInt(4));
-
-                result.add(values);
-            }while(rs.next());
+            String result = stmt.getString(3);
 
             return result;
 
         }
         catch(Exception e)
         {
-            return null;
 
         }
-
+        return null;
     }
 
-    public static List<String[]> executeQuery2()
+    public static String executeQuery2()
     {
         try
         {
-            String query = "SELECT\n"
-                    + "    cb.customer_id        AS customerid,\n"
-                    + "    lp.loyalty_program_id AS loyaltyprogramid\n"
-                    + "FROM\n"
-                    + "    customers_to_brands      cb,\n"
-                    + "    regular_loyalty_programs lp\n"
-                    + "WHERE\n"
-                    + "        cb.brand_id = lp.brand_id\n"
-                    + "        AND cb.customer_id NOT IN (\n"
-                    + "            SELECT\n"
-                    + "                cblpa.customer_id\n"
-                    + "            FROM\n"
-                    + "                customers_to_blp_activities cblpa\n"
-                    + "            where \n"
-                    + "                cblpa.brand_id = lp.loyalty_program_id\n"
-                    + "        )";
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_2(?,?,?)}");
 
+            stmt.setString(1,"2");
 
-            stmt = DBTasks.conn.prepareStatement(query);
-            rs = stmt.executeQuery();
+            stmt.registerOutParameter(2  , Types.VARCHAR);
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.executeQuery();
 
-            List<String[]> result = new ArrayList<>();
+            String result = stmt.getString(2);
 
-            String[] columns = new String[2];
-            columns[0] = "customer_id"; columns[1] = "loyalty_program_id";
+            return result;
+        }
+        catch(Exception e)
+        {
 
-            result.add(columns);
+        }
+        return null;
 
-            if(rs == null || !rs.next()) return result;
+    }
 
-            do
-            {
-                String[] values = new String[4];
-                values[0] = String.valueOf(rs.getInt(1));
-                values[1] = String.valueOf(rs.getInt(2));
+    public static String executeQuery3(String customerUserName)
+    {
+        try{
 
-                result.add(values);
-            }while(rs.next());
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_3(?,?,?,?)}");
+
+            stmt.setString(1,"3");
+            stmt.setString(2,customerUserName);
+
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
+
+            String result = stmt.getString(3);
 
             return result;
 
         }
         catch(Exception e)
         {
-            return null;
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return null;
+    }
+
+    public static String executeQuery4(String activityCode)
+    {
+        try{
+
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_4(?,?,?,?)}");
+
+            stmt.setString(1,"4");
+            stmt.setString(2,activityCode);
+
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
+
+            String result = stmt.getString(3);
+
+            return result;
 
         }
-    }
-
-    public static List<String[]> executeQuery3()
-    {
-        return null;
-    }
-
-    public static List<String[]> executeQuery4()
-    {
-        return null;
-    }
-
-    public static List<String[]> executeQuery5()
-    {
-        return null;
-    }
-
-    public static List<String[]> executeQuery6()
-    {
-        return null;
-    }
-
-    public static List<String[]> executeQuery7()
-    {
-        return null;
-    }
-
-    public static List<String[]> executeQuery8()
-    {
-        return null;
-    }
-
-    public static void printQueryResult(List<String[]> result)
-    {
-        if(result == null || result.size() == 0) return;
-
-        String formattedColumns = getFormatted(result.get(0));
-
-        System.out.println(formattedColumns);
-
-        System.out.println(getDottedLines(result.get(0).length));
-
-        for(int i=1; i<result.size(); i++)
+        catch(Exception e)
         {
-            System.out.println(getFormatted(result.get(i)));
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return null;
+    }
+
+    public static String executeQuery5(String brandUserName)
+    {
+        try{
+
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_5(?,?,?,?)}");
+
+            stmt.setString(1,"5");
+            stmt.setString(2,brandUserName);
+
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
+
+            String result = stmt.getString(3);
+
+            return result;
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return null;
+    }
+
+    public static String executeQuery6(String brandUserName)
+    {
+        try{
+
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_1_6(?,?,?,?)}");
+
+            stmt.setString(1,"6");
+            stmt.setString(2,"tiktok");
+
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
+
+            String result = stmt.getString(3);
+
+            return result;
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return null;
+    }
+
+    public static String executeQuery7(int pointsThreshold)
+    {
+        try{
+
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_7(?,?,?,?)}");
+
+            stmt.setString(1,"7");
+            stmt.setInt(2,pointsThreshold);
+
+            stmt.registerOutParameter(3  , Types.VARCHAR);
+            stmt.registerOutParameter(4  , Types.VARCHAR);
+            stmt.executeQuery();
+
+            String result = stmt.getString(3);
+
+            return result;
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return null;
+    }
+
+    public static void executeQuery8(String brandName, String customerName, String startDate, String endDate)
+    {
+        try{
+
+            CallableStatement stmt = DBTasks.conn.prepareCall(
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_8(?,?,?,?,?,?,?,?)}");
+
+            stmt.setString(1,"8");
+            stmt.setString(2,brandName);
+            stmt.setString(3,customerName);
+            stmt.setString(4,startDate);
+            stmt.setString(5,endDate);
+
+            stmt.registerOutParameter(6  , Types.VARCHAR);
+            stmt.registerOutParameter(7  , Types.VARCHAR);
+            stmt.registerOutParameter(8 , Types.INTEGER);
+            stmt.executeQuery();
+
+            System.out.println("No of activities:  "+ stmt.getInt(8));
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString()+" "+e.getMessage());
+        }
+        return;
+    }
+
+    public static void printQueryResult(String result)
+    {
+        if(result == null || result.length() == 0) return;
+
+        String[] arr = result.split("#");
+
+        List<String[]> list = getList(arr);
+
+        System.out.println(getFormatted(list.get(0)));
+
+        System.out.println(getDottedLines(list.get(0).length));
+
+        for(int i=1; i<list.size(); i++)
+        {
+            String val = getFormatted(list.get(i));
+
+            System.out.println(val);
         }
 
         return;
+    }
+
+    public static List<String[]> getList(String[] arr)
+    {
+        List<String[]> list = new ArrayList<>();
+
+        Set<String> set = new HashSet<>();
+
+        for(int i=0; i<arr.length; i++)
+        {
+            if(!set.contains(arr[i])) {
+
+                String[] str = arr[i].split("\\|");
+
+                set.add(arr[i]);
+
+                list.add(str);
+            }
+        }
+
+        return list;
     }
 
     public static String getDottedLines(int len)

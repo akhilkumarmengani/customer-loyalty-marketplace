@@ -227,6 +227,8 @@ public class ShowQueriesUtil {
 
         List<String[]> list = getList(arr);
 
+        System.out.println(getDottedLines(list.get(0).length));
+
         System.out.println(getFormatted(list.get(0)));
 
         System.out.println(getDottedLines(list.get(0).length));
@@ -237,6 +239,8 @@ public class ShowQueriesUtil {
 
             System.out.println(val);
         }
+
+        System.out.println(getDottedLines(list.get(0).length));
 
         return;
     }

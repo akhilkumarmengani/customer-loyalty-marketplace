@@ -21,9 +21,12 @@ public class ShowQueries {
 	{
 		while(true)
 		{
+			System.out.println();
+			System.out.println("-------------Select Queries-----------------");
+			System.out.println();
 			System.out.println(showQuery);
-
-			System.out.println("select an option !!!");
+			System.out.println();
+			System.out.println("Enter a number from the above query list:");
 
 			int option = DisplayOptions.getSc().nextInt();
 
@@ -40,6 +43,7 @@ public class ShowQueries {
 					String brandName;
 					System.out.println("\nEnter Brand Name:");
 					brandName = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery1(brandName));
 					break;
 				}
@@ -53,6 +57,7 @@ public class ShowQueries {
 					String customerName;
 					System.out.println("\nEnter Customer Name: ");
 					customerName = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery3(customerName));
 					break;
 				}
@@ -64,6 +69,7 @@ public class ShowQueries {
 					System.out.println("Write a review    :   ACT103");
 					System.out.println("Enter activity code:");
 					String activityCode = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery4(activityCode));
 					break;
 				}
@@ -72,6 +78,7 @@ public class ShowQueries {
 					String brandName;
 					System.out.println("\nEnter Brand Name:");
 					brandName = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery5(brandName));
 					break;
 				}
@@ -80,14 +87,16 @@ public class ShowQueries {
 					String brandName;
 					System.out.println("\nEnter Brand Name:");
 					brandName = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery6(brandName));
 					break;
 				}
 				case 7:
 				{
 					int pointsThreshold;
-					System.out.println("\n Enter the points redeeming threshold");
+					System.out.println("\nEnter the points redeeming threshold:");
 					pointsThreshold = DisplayOptions.getSc().nextInt();
+					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery7(pointsThreshold));
 					break;
 				}
@@ -96,12 +105,16 @@ public class ShowQueries {
 					String brandName, customerName, startDate, endDate;
 					System.out.println("\nEnter Brand Name:");
 					brandName = DisplayOptions.getSc().next();
+					System.out.println();
 					System.out.println("\nEnter Customer Name: ");
 					customerName = DisplayOptions.getSc().next();
+					System.out.println();
 					System.out.println("\nEnter Start Date (MM/DD/YYYY): ");
 					startDate = DisplayOptions.getSc().next();
+					System.out.println();
 					System.out.println("\nEnter End Date (MM/DD/YYYY): ");
 					endDate = DisplayOptions.getSc().next();
+					System.out.println();
 					ShowQueriesUtil.executeQuery8(brandName,customerName,startDate,endDate);
 					break;
 				}
@@ -109,6 +122,7 @@ public class ShowQueries {
 			System.out.println("\n"+"Enter no to exit and any other to continue");
 			String op = DisplayOptions.getSc().next();
 			if(op != null && "no".equals(op.toLowerCase())) break;
+			//System.out.println("------------------------------------------------");
 		}
 	}
 }

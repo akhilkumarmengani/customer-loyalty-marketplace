@@ -147,7 +147,7 @@ public class ShowQueriesUtil {
                     "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_1_6(?,?,?,?)}");
 
             stmt.setString(1,"6");
-            stmt.setString(2,"tiktok");
+            stmt.setString(2,brandUserName);
 
             stmt.registerOutParameter(3  , Types.VARCHAR);
             stmt.registerOutParameter(4  , Types.VARCHAR);

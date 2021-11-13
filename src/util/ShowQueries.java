@@ -41,8 +41,9 @@ public class ShowQueries {
 				case 1:
 				{
 					String brandName;
-					System.out.println("\nEnter Brand Name:");
-					brandName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Brand User Name:");
+					DisplayOptions.getSc().nextLine();
+					brandName = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery1(brandName));
 					break;
@@ -55,8 +56,9 @@ public class ShowQueries {
 				case 3:
 				{
 					String customerName;
-					System.out.println("\nEnter Customer Name: ");
-					customerName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Brand User Name: ");
+					DisplayOptions.getSc().nextLine();
+					customerName = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery3(customerName));
 					break;
@@ -64,11 +66,12 @@ public class ShowQueries {
 				case 4:
 				{
 					System.out.println("\nList of activities and their codes: ");
-					System.out.println("Purchase    :   ACT101");
-					System.out.println("Refer a friend    :   ACT102");
-					System.out.println("Write a review    :   ACT103");
+					System.out.println("Purchase          :   ACT101");
+					System.out.println("Leave A Review    :   ACT102");
+					System.out.println("Refer A Friend    :   ACT103");
 					System.out.println("Enter activity code:");
-					String activityCode = DisplayOptions.getSc().next();
+					DisplayOptions.getSc().nextLine();
+					String activityCode = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery4(activityCode));
 					break;
@@ -76,8 +79,9 @@ public class ShowQueries {
 				case 5:
 				{
 					String brandName;
-					System.out.println("\nEnter Brand Name:");
-					brandName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Brand User Name:");
+					DisplayOptions.getSc().nextLine();
+					brandName = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery5(brandName));
 					break;
@@ -85,8 +89,9 @@ public class ShowQueries {
 				case 6:
 				{
 					String brandName;
-					System.out.println("\nEnter Brand Name:");
-					brandName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Brand User Name:");
+					DisplayOptions.getSc().nextLine();
+					brandName = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.printQueryResult(ShowQueriesUtil.executeQuery6(brandName));
 					break;
@@ -103,17 +108,18 @@ public class ShowQueries {
 				case 8:
 				{
 					String brandName, customerName, startDate, endDate;
-					System.out.println("\nEnter Brand Name:");
-					brandName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Brand User Name:");
+					DisplayOptions.getSc().nextLine();
+					brandName = DisplayOptions.getSc().nextLine();
 					System.out.println();
-					System.out.println("\nEnter Customer Name: ");
-					customerName = DisplayOptions.getSc().next();
+					System.out.println("\nEnter Customer User Name: ");
+					customerName = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					System.out.println("\nEnter Start Date (MM/DD/YYYY): ");
-					startDate = DisplayOptions.getSc().next();
+					startDate = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					System.out.println("\nEnter End Date (MM/DD/YYYY): ");
-					endDate = DisplayOptions.getSc().next();
+					endDate = DisplayOptions.getSc().nextLine();
 					System.out.println();
 					ShowQueriesUtil.executeQuery8(brandName,customerName,startDate,endDate);
 					break;

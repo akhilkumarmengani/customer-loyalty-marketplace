@@ -57,7 +57,7 @@ public class CustomerLandingUtil {
 				//1System.out.println(rs.getString("NAME"));
 				int brandId = Integer.valueOf(rs.getString("BRAND_ID"));
 				String lpType = rs.getString("LOYALTY_TYPE");
-				int lpId = DBTasks.getLoyaltyId(AppData.brandId);
+				int lpId = DBTasks.getLoyaltyId(brandId);
 
 				AppData.regularLoyaltyProgramId = lpId;
 				AppData.brandId = brandId;

@@ -576,7 +576,7 @@ public class DBTasks {
 
 
 
-			String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
+			String selectQuery = "select points_earned, number_of_instances from customers_to_blp_activities where customer_id=? and brand_id=? and " +
 					" activity_code=? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 			stmt = conn.prepareStatement(selectQuery);
@@ -592,17 +592,19 @@ public class DBTasks {
 
 			if(rs!= null && rs.next())
 			{
-				String updateQuery = "update customers_to_blp_activities set points_earned = ? where brand_id = ? and customer_id = ? "+
+				String updateQuery = "update customers_to_blp_activities set points_earned = ?, number_of_instances = ? where brand_id = ? and customer_id = ? "+
 						"and activity_code = ? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
-				System.out.println(ptsEarned + " " +rs.getInt(1)+" "+giftCardValue);
+			//	System.out.println(ptsEarned + " " +rs.getInt(1)+" "+giftCardValue);
 				stmt = conn.prepareStatement(updateQuery);
 				int inputValue = (rs.getInt(1) + Math.max(ptsEarned - giftCardValue,0));
+				int no_of_inst = rs.getInt(2);
 				String aCode = new String("ACT101");
 				stmt.setInt(1,inputValue);
-				stmt.setInt(2,brandId);
-				stmt.setInt(3,customerId);
-				stmt.setString(4,aCode);
+				stmt.setInt(2,no_of_inst+1);
+				stmt.setInt(3,brandId);
+				stmt.setInt(4,customerId);
+				stmt.setString(5,aCode);
 				//stmt.setDate(5,date);
 
 				stmt.executeUpdate();
@@ -610,8 +612,9 @@ public class DBTasks {
 
 			}
 			else {
-				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned, performed_date,u_id) \n" +
-						"values(?,?,?,?,?,?,?,?)";
+				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned, " +
+						"performed_date,u_id, number_of_instances) \n" +
+						"values(?,?,?,?,?,?,?,?,?)";
 
 
 				stmt = conn.prepareStatement(insertQuery);
@@ -624,7 +627,7 @@ public class DBTasks {
 				stmt.setInt(6, Math.max(ptsEarned-giftCardValue,0));
 				stmt.setDate(7,date);
 				stmt.setInt(8,uId);
-
+				stmt.setInt(9,1);
 				stmt.executeUpdate();
 			}
 
@@ -802,7 +805,9 @@ public class DBTasks {
 	}
 
 	public static void displayWallet(int customerId){
-		String query = "select c.name, a.activity_name,  to_char(b.performed_date, 'DD-MON-YY') , sum(b.points_earned) as points_earned\n" +
+		String query = "select c.name, a.activity_name,  to_char(b.performed_date, 'DD-MON-YY') " +
+				", sum(number_of_instances) as number_of_instances ," +
+				"sum(b.points_earned) as points_earned\n" +
 				"from ACTIVITIES a, CUSTOMERS_TO_BLP_ACTIVITIES b, BRANDS c\n" +
 				"where b.CUSTOMER_ID = ?\n" +
 				"and  b.activity_code = a.activity_code\n" +
@@ -822,7 +827,8 @@ public class DBTasks {
 
 			do{
 				System.out.println("Brand Name : "+ rs.getString(1)+" | Activity Name : "+ rs.getString(2)+"" +
-						" | Performed Date : "+ rs.getString(3)+" | Points Earned :"+rs.getInt(4));
+						" | Performed Date : "+ rs.getString(3)+" | Number of Times Performed :"+rs.getInt(4)+
+						" | Points Earned :"+rs.getInt(5));
 			}while(rs.next());
 
 		}
@@ -880,7 +886,7 @@ public class DBTasks {
 
 			//String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
 			//		" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
-			String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
+			String selectQuery = "select points_earned, number_of_instances from customers_to_blp_activities where customer_id=? and brand_id=? and " +
 					" activity_code=? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 			stmt = conn.prepareStatement(selectQuery);
@@ -899,15 +905,20 @@ public class DBTasks {
 				//String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
 				//		"and activity_code = ? and performed_date = ?";
 
-				String updateQuery = "update customers_to_blp_activities set points_earned = ? where brand_id = ? and customer_id = ? "+
+				String updateQuery = "update customers_to_blp_activities set points_earned = ?, number_of_instances = ? where brand_id = ? and customer_id = ? "+
 						"and activity_code = ? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 				stmt = conn.prepareStatement(updateQuery);
-
+				int no_of_inst = 0;
+				if(Integer.valueOf(rs.getInt(2)) != null)
+				{
+					no_of_inst = rs.getInt(2);
+				}
 				stmt.setInt(1,rs.getInt("points_earned") + ptsEarned);
-				stmt.setInt(2,brandId);
-				stmt.setInt(3,customerId);
-				stmt.setString(4,actCode);
+				stmt.setInt(2,no_of_inst+1);
+				stmt.setInt(3,brandId);
+				stmt.setInt(4,customerId);
+				stmt.setString(5,actCode);
 				//stmt.setDate(5,date);
 
 				stmt.executeUpdate();
@@ -915,8 +926,9 @@ public class DBTasks {
 
 			}
 			else {
-				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned,performed_date,u_id) \n" +
-						"values(?,?,?,?,?,?,?,?)";
+				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id," +
+						"wallet_id,activity_code,points_earned,performed_date,u_id,number_of_instances) \n" +
+						"values(?,?,?,?,?,?,?,?,?)";
 
 
 				stmt = conn.prepareStatement(insertQuery);
@@ -929,6 +941,7 @@ public class DBTasks {
 				stmt.setInt(6, ptsEarned);
 				stmt.setDate(7,date);
 				stmt.setInt(8,uId);
+				stmt.setInt(9,1);
 
 				stmt.executeUpdate();
 			}

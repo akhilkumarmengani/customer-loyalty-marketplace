@@ -26,10 +26,21 @@ public class BrandLanding {
 							System.out.println("Invalid Option");
 							continue;
 						}
+
+						if(option1==3){
+							break;
+						}
+
+						System.out.println("Enter Loyalty Program Name:");
+						String lpName = DisplayOptions.getSc().next();
+
+						System.out.println("Enter Loyalty Program Code:");
+						String lpCode = DisplayOptions.getSc().next();
+
 						if (option1 == 1) {
-							new AddLoyaltyProgram().addRegular();
+							new AddLoyaltyProgram().addRegular(lpName,lpCode);
 						} else if (option1 == 2) {
-							new AddLoyaltyProgram().addTier();
+							new AddLoyaltyProgram().addTier(lpName,lpCode);
 						} else if (option1 == 3)
 							break;
 					}
@@ -56,6 +67,8 @@ public class BrandLanding {
 					continue;
 				}
 				case 7: {
+					AppData.brandLogout = true;
+					System.out.println("Log out of Customer Program Marketplace");
 					AppData.clearBrandVariables();
 					return;
 				}

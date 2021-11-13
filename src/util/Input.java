@@ -52,30 +52,30 @@ public class Input {
 			System.out.println("Enter brand signup details !!!!!");
 
 			Scanner sc = DisplayOptions.getSc();
-
+			sc.nextLine();
 			System.out.println("A: Brand Name");
 
-			brandObj.setBrandName(sc.next());
+			brandObj.setBrandName(sc.nextLine());
 
 			System.out.println("B: Contact Number");
 
 			brandObj.setContactNumber(sc.nextInt());
-
+			sc.nextLine();
 			System.out.println("C: Address");
 
-			brandObj.setAddress(sc.next());
+			brandObj.setAddress(sc.nextLine());
 
 			System.out.println("D: User Name");
-
-			brandObj.setUserName(sc.next());
+			//sc.nextLine();
+			brandObj.setUserName(sc.nextLine());
 
 			System.out.println("E: Password");
-
-			brandObj.setPassWord(sc.next());
+			//sc.nextLine();
+			brandObj.setPassWord(sc.nextLine());
 
 			System.out.println("F: Confirm Password");
-
-			String passwd = sc.next();
+			//sc.nextLine();
+			String passwd = sc.nextLine();
 
 			if(brandObj.getUserName() == null || brandObj.getUserName().equals("")
 					|| brandObj.getPassWord() == null || brandObj.getPassWord().equals(""))
@@ -108,28 +108,28 @@ public class Input {
 			Scanner sc = DisplayOptions.getSc();
 
 			System.out.println("A: Customer Name");
-
-			custObj.setCustomerName(sc.next());
+			sc.nextLine();
+			custObj.setCustomerName(sc.nextLine());
 
 			System.out.println("B: Contact Number");
 
-			custObj.setContactNumber(sc.nextInt());
+			custObj.setContactNumber(sc.nextLine());
 
 			System.out.println("C: Address");
-
-			custObj.setAddress(sc.next());
+			//sc.nextLine();
+			custObj.setAddress(sc.nextLine());
 
 			System.out.println("D: User Name");
-
-			custObj.setUserName(sc.next());
-
+			//sc.nextLine();
+			custObj.setUserName(sc.nextLine());
+			//sc.nextLine();
 			System.out.println("E: Password");
 
-			custObj.setPassWord(sc.next());
+			custObj.setPassWord(sc.nextLine());
 
 			System.out.println("F: Confirm Password");
-
-			String passwd = sc.next();
+			//sc.nextLine();
+			String passwd = sc.nextLine();
 
 			if(custObj.getUserName() == null || custObj.getUserName().equals("")
 					|| custObj.getPassWord() == null || custObj.getPassWord().equals(""))
@@ -160,14 +160,14 @@ public class Input {
 			System.out.println("Enter activity details !!!!!");
 
 			Scanner sc = DisplayOptions.getSc();
-
+			sc.nextLine();
 			System.out.println("A: Activity Name");
 
-			actObj.setActivityName(sc.next());
+			actObj.setActivityName(sc.nextLine());
 
 			System.out.println("B: Activity Code");
 
-			actObj.setActivityCode(sc.next());
+			actObj.setActivityCode(sc.nextLine());
 
 			if(null == actObj.getActivityName() || "".equals(actObj.getActivityName())
 					|| null == actObj.getActivityCode() || "".equals(actObj.getActivityCode()))
@@ -189,13 +189,13 @@ public class Input {
 	{
 		try
 		{
-			System.out.println("Enter activity details !!!!!");
+			System.out.println("Enter Reward details:");
 
 			Scanner sc = DisplayOptions.getSc();
 
 			System.out.println("A: Reward Name");
-
-			rewObj.setRewardName(sc.next());
+			sc.nextLine();
+			rewObj.setRewardName(sc.nextLine());
 
 			System.out.println("B: Reward Code");
 

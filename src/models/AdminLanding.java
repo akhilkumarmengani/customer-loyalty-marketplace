@@ -39,6 +39,7 @@ public class AdminLanding {
 
 				System.out.println("Added brand successfully !!!");
 
+				return;
 
 			}
 			catch(Exception e)
@@ -81,7 +82,7 @@ public class AdminLanding {
 
 				System.out.println("Added customer successfully !!!");
 
-
+				return;
 			}
 			catch(Exception e)
 			{
@@ -129,7 +130,7 @@ public class AdminLanding {
 
 					System.out.println("Brand Address: "+brandObj.getAddress());
 
-					System.out.println("Brand Contact Number :"+brandObj.getContactNumber()+"\n");
+					//System.out.println("Brand Contact Number :"+brandObj.getContactNumber()+"\n");
 				}
 
 			}

@@ -134,24 +134,24 @@ public class CustomerLanding {
 										int giftCardValue = 0;
 										int instances = 0;
 
-										List<String[]> giftCards = CustomerLandingUtil.getAllGiftCardsOfCustomer(AppData.customerId,AppData.brandId);
+										List<String[]> giftCards = CustomerLandingUtil.getGiftCardsForCustomer(AppData.customerId,AppData.brandId);
 
-										if( giftCards==null || giftCards.size()==0){
+										if( giftCards==null || giftCards.size()==0 || giftCards.get(0)[0].equals("0")){
 											System.out.println("You don't have any gift cards currently");
 										}
 										else{
 											System.out.println("If you want to select a gift card, please choose from below options");
 											System.out.println("Gift Cards Available:");
 
-											System.out.println("Instances - "+ giftCards.get(0)[1] +" , GiftCard Value - "+ giftCards.get(0)[0]);
+											System.out.println("Number of Gift Cards - "+ giftCards.get(0)[0] +" , GiftCard Value - "+ giftCards.get(0)[1]);
 
 											System.out.println("Enter Yes / No :");
 
 											String giftOption = DisplayOptions.getSc().next();
 
 											if("Yes".equals(giftOption)) {
-												giftCardValue = Integer.valueOf(giftCards.get(0)[0]);
-												instances = Integer.valueOf(giftCards.get(0)[1]);
+												giftCardValue = Integer.valueOf(giftCards.get(0)[1]);
+												instances = Integer.valueOf(giftCards.get(0)[0]);
 												useGiftCard = true;
 											}
 										}
@@ -219,7 +219,7 @@ public class CustomerLanding {
 								}
 							}
 							else {
-								break;
+								break ;
 							}
 						}
 					}
@@ -284,6 +284,7 @@ public class CustomerLanding {
 							int selRewOption;
 
 							int[] total_reward_instances = new int[2];
+							int[] total_redeemed_values = new int[2];
 							int[] uid = new int[2];
 
 
@@ -336,17 +337,20 @@ public class CustomerLanding {
 								if(rewCode.equals("REW101"))
 								{
 									total_reward_instances[0]+= no_of_instances;
+									total_redeemed_values[0] += no_of_instances * rew_value;
 								}
 								else
 								{
 									total_reward_instances[1]+= no_of_instances;
+									total_redeemed_values[1] += no_of_instances * rew_value;
 								}
+
 
 								rewOptions.get(selRewOption-1)[1] = String.valueOf(total_instances - no_of_instances);
 							}while(selRewOption != -1);
 
 
-							CustomerLandingUtil.updateCustomerRewardsForABrand(AppData.customerId,AppData.brandId,total_reward_instances, uid );
+							CustomerLandingUtil.updateCustomerRewardsForABrand(AppData.customerId,AppData.brandId,total_reward_instances,total_redeemed_values, uid );
 
 					}
 					//break;

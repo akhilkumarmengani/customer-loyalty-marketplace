@@ -41,7 +41,7 @@ public class CustomerLandingUtil {
 		//Create Entry in Customer to Brands
 		String name = null;
 		ResultSet rs = DBTasks.getAllBrandLoyaltyPrograms();
-		System.out.println(rs.getFetchSize());
+		//System.out.println(rs.getFetchSize());
 		List<BrandItem> brandList = new ArrayList<BrandItem>();
 		int index = 1;
 		
@@ -53,10 +53,20 @@ public class CustomerLandingUtil {
 		{ 
 			do { 
 				
-				System.out.println(rs.getString("BRAND_ID"));
-				System.out.println(rs.getString("NAME"));
-				brandList.add(new BrandItem(index, Integer.valueOf(rs.getString("BRAND_ID")), rs.getString("NAME")));
-				index++;
+				//System.out.println(rs.getString("BRAND_ID"));
+				//1System.out.println(rs.getString("NAME"));
+				int brandId = Integer.valueOf(rs.getString("BRAND_ID"));
+				String lpType = rs.getString("LOYALTY_TYPE");
+				int lpId = DBTasks.getLoyaltyId(AppData.brandId);
+
+				AppData.regularLoyaltyProgramId = lpId;
+				AppData.brandId = brandId;
+				AppData.tieredLoyaltyProgram = "TIERED".equals(lpType)? true:false;
+				if(validate()){
+					brandList.add(new BrandItem(index, Integer.valueOf(rs.getString("BRAND_ID")), rs.getString("NAME")));
+					index++;
+				}
+
 			} while (rs.next()); 
 		}
 		
@@ -158,10 +168,10 @@ public class CustomerLandingUtil {
 		//return DBTasks.getGiftCardsForCustomerAndBrand(customerId,brandId);
 	}
 
-	public static List<String[]> getAllGiftCardsOfCustomer(int customerId, int brandId){
-		List<String[]> list = DBTasks.getAllGiftCardsOfCustomer(customerId,brandId);
-		return list;
-	}
+//	public static List<String[]> getAllGiftCardsOfCustomer(int customerId, int brandId){
+//		List<String[]> list = DBTasks.getAllGiftCardsOfCustomer(customerId,brandId);
+//		return list;
+//	}
 
 	public static void insertIntoCustomerToBLPActivities(int customerId,int brandId, String activityCode, int giftCardValue, int numberOfInstances) throws SQLException {
 		DBTasks.insertIntoCustomerToBLPActivities(customerId,brandId,activityCode,giftCardValue,numberOfInstances);
@@ -178,9 +188,9 @@ public class CustomerLandingUtil {
 		return DBTasks.getTotalWalletPointsForACustomerInBrand(customerId,brandId);
 	}
 
-	public static void updateCustomerRewardsForABrand(int customerId, int brandId, int[] totalRewards, int[] uid)
+	public static void updateCustomerRewardsForABrand(int customerId, int brandId, int[] totalRewards,int[] totalRedeemedPoints, int[] uid)
 	{
-		DBTasks.updateCustomerRewardsForABrand(customerId,brandId,totalRewards, uid);
+		DBTasks.updateCustomerRewardsForABrand(customerId,brandId,totalRewards, totalRedeemedPoints, uid);
 	}
 
 	public static void displayWallet(int customerId){
@@ -189,6 +199,89 @@ public class CustomerLandingUtil {
 
 	public static void insertIntoCustomerToBLPActivitiesForReview(int customerId, int brandId, String activityCode){
 		DBTasks.insertIntoCustomerToBLPActivitiesForReview(customerId, brandId, activityCode);
+	}
+
+
+	public static List<String[]> getGiftCardsForCustomer(int customerId, int brandId){
+		List<String[]> list = DBTasks.getGiftCardsForCustomer(customerId,brandId);
+		return list;
+	}
+
+
+	public static boolean validate() {
+		try {
+			Integer loyaltyProgram = null;
+			if (AppData.tieredLoyaltyProgram) {
+				loyaltyProgram = 1;
+			} else {
+				if (AppData.regularLoyaltyProgramId != null) {
+					loyaltyProgram = 0;
+				}
+			}
+			if (loyaltyProgram != null) {
+				boolean rewardFlag = false;
+				boolean activityFlag = false;
+				if (loyaltyProgram == 1) {
+					if (DBTasks.getTieredRecords() == 0) {
+						//System.out.println(
+						//		"Loyalty program is not valid. The tiered program doesnt have any tiers added");
+						return false;
+					}
+				}
+				ResultSet rs = DBTasks.validateBLPA();
+				if (rs == null || !rs.next()) {
+					//System.out.println(
+					//		"Loyalty program is not valid. The Loyalty program doesnt have any activities associated with it");
+					return false;
+				} else {
+					activityFlag = false;
+					do {
+						if (rs.getInt("ACTIVITY_VALUE") != -1) {
+							activityFlag = true;
+							break;
+						}
+					} while (rs.next());
+					if (activityFlag == false) {
+//						System.out.println(
+//								"Loyalty program is not valid. The Loyalty program doesnt have any rule added to any activity");
+						return false;
+					}
+				}
+
+				rs = DBTasks.validateBLPRC();
+				if (rs == null || !rs.next()) {
+//					System.out.println(
+//							"Loyalty program is not valid. The Loyalty program doesnt have any reward categories associated with it");
+					return false;
+				} else {
+					rewardFlag = false;
+					do {
+						if (!"-1".equals(rs.getString("REWARD_VALUE"))) {
+							rewardFlag = true;
+							break;
+						}
+					} while (rs.next());
+					if (rewardFlag == false) {
+//						System.out.println(
+//								"Loyalty program is not valid. The Loyalty program doesnt have any redeeming rule added");
+						return false;
+					}
+				}
+
+				if (activityFlag && rewardFlag) {
+					//System.out.println("Loyalty program is valid.");
+					return true;
+				}
+
+			} else {
+				//System.out.println("Loyalty program is not valid. Please ensure it has everything setup");
+				return false;
+			}
+		} catch (Exception e) {
+			//System.out.println("Error in validation: " + e);
+			return false;
+		}
+		return true;
 	}
 
 }

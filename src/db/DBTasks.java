@@ -14,7 +14,9 @@ public class DBTasks {
 
 	public static final String jdbcURL = "jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl01";
 
-	public static final String userName = "smulkur";
+	//public static final String userName = "smulkur";
+	public static final String userName = "amengan";
+	//public static final String userName = "pvsingar";
 
 	public static final String passWord = "abcd1234";
 
@@ -125,7 +127,7 @@ public class DBTasks {
 
 			stmt.setString(5, custObj.getAddress());
 
-			stmt.setInt(6, custObj.getContactNumber());
+			stmt.setString(6, custObj.getContactNumber());
 
 			stmt.executeUpdate();
 
@@ -201,7 +203,7 @@ public class DBTasks {
 
 			custObj.setAddress(rs.getString("address"));
 
-			custObj.setContactNumber(rs.getInt("contact_number"));
+			custObj.setContactNumber(rs.getString("contact_number"));
 
 			return custObj;
 		}
@@ -398,12 +400,30 @@ public class DBTasks {
 		return null;
 	}
 
-	public static List<String[]> getAllGiftCardsOfCustomer(int customerId, int brandId){
 
+	public static List<String[]> getGiftCardsForCustomer(int customerId , int brandId){
 		try{
 
-			String query = "select b.reward_value,a.number_of_instances from customers_to_blp_rewards a, brands_loyalty_programs_to_rewards b " +
-					"where a.customer_id=? and a.brand_id=? and a.u_id = b.u_id and a.reward_category_code = ? ";
+			String query = "SELECT\n" +
+					"    a.number_of_gift_cards,\n" +
+					"    b.reward_value\n" +
+					"FROM\n" +
+					"    customer_wallet_to_customers_brands a,\n" +
+					"    brands_loyalty_programs_to_rewards  b\n" +
+					"WHERE\n" +
+					"        a.customer_id = ?\n" +
+					"    AND a.brand_id = ?\n" +
+					"    AND b.brand_id = a.brand_id\n" +
+					"    AND b.reward_category_code = ?\n" +
+					"    AND b.version_number IN (\n" +
+					"        SELECT\n" +
+					"            MAX(version_number)\n" +
+					"        FROM\n" +
+					"            brands_loyalty_programs_to_rewards c\n" +
+					"        WHERE\n" +
+					"                c.brand_id = b.brand_id\n" +
+					"            AND c.reward_category_code = b.reward_category_code\n" +
+					"    )\n";
 
 			stmt = conn.prepareStatement(query);
 
@@ -420,8 +440,11 @@ public class DBTasks {
 			}
 
 			do {
-				String[] idName = new String[4];
+				String[] idName = new String[2];
 				idName[0] = rs.getString(1);
+				if(idName[0]==null || idName[0].isEmpty() ){
+					idName[0] = "0";
+				}
 				idName[1] = rs.getString(2);
 				list.add(idName);
 			} while (rs.next());
@@ -435,6 +458,44 @@ public class DBTasks {
 
 		return null;
 	}
+
+//	public static List<String[]> getAllGiftCardsOfCustomer(int customerId, int brandId){
+//
+//		try{
+//
+//			String query = "select b.reward_value,a.number_of_instances from customers_to_blp_rewards a, brands_loyalty_programs_to_rewards b " +
+//					"where a.customer_id=? and a.brand_id=? and a.u_id = b.u_id and a.reward_category_code = ? ";
+//
+//			stmt = conn.prepareStatement(query);
+//
+//			stmt.setInt(1, customerId);
+//			stmt.setInt(2, brandId);
+//			stmt.setString(3, "REW101");
+//
+//			ResultSet rs = stmt.executeQuery();
+//
+//			List<String[]> list =  new ArrayList<>();
+//
+//			if (rs == null || !rs.next()) {
+//				return null;
+//			}
+//
+//			do {
+//				String[] idName = new String[4];
+//				idName[0] = rs.getString(1);
+//				idName[1] = rs.getString(2);
+//				list.add(idName);
+//			} while (rs.next());
+//
+//
+//			return list;
+//		}
+//		catch(Exception ex){
+//			System.out.println(ex.getMessage()+" "+ex.toString());
+//		}
+//
+//		return null;
+//	}
 
 	public static int insertIntoCustomerToBLPActivities(int customerId, int brandId, String activityCode,
 														int giftCardValue, int numberOfInstances
@@ -481,15 +542,14 @@ public class DBTasks {
 			int uId = rs.getInt(7);
 
 			if(giftCardValue>0){
-				String updateQuery = "update customers_to_blp_rewards " +
-						"set number_of_instances = ? where customer_id = ? and brand_id = ? and reward_category_code = ?";
+				String updateQuery = "update customer_wallet_to_customers_brands " +
+						"set number_of_gift_cards = ? where customer_id = ? and brand_id = ?";
 
 				stmt = conn.prepareStatement(updateQuery);
 
 				stmt.setInt(1, numberOfInstances-1);
 				stmt.setInt(2,customerId);
 				stmt.setInt(3,brandId);
-				stmt.setString(4,"REW101");
 
 				stmt.executeUpdate();
 
@@ -517,14 +577,14 @@ public class DBTasks {
 
 
 			String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
-					" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
+					" activity_code=? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 			stmt = conn.prepareStatement(selectQuery);
 
 			stmt.setInt(1, customerId);
 			stmt.setInt(2, brandId);
 			stmt.setString(3, "ACT101");
-			stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
+			//stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
 
 
 			rs = stmt.executeQuery();
@@ -532,23 +592,25 @@ public class DBTasks {
 
 			if(rs!= null && rs.next())
 			{
-				String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
-						"and activity_code = ? and performed_date = ?";
+				String updateQuery = "update customers_to_blp_activities set points_earned = ? where brand_id = ? and customer_id = ? "+
+						"and activity_code = ? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
+				System.out.println(ptsEarned + " " +rs.getInt(1)+" "+giftCardValue);
 				stmt = conn.prepareStatement(updateQuery);
-
-				stmt.setInt(1,rs.getInt("points_earned") + ptsEarned - giftCardValue);
-				stmt.setInt(2,customerId);
-				stmt.setInt(3,brandId);
-				stmt.setString(4,"ACT101");
-				stmt.setDate(5,date);
+				int inputValue = (rs.getInt(1) + Math.max(ptsEarned - giftCardValue,0));
+				String aCode = new String("ACT101");
+				stmt.setInt(1,inputValue);
+				stmt.setInt(2,brandId);
+				stmt.setInt(3,customerId);
+				stmt.setString(4,aCode);
+				//stmt.setDate(5,date);
 
 				stmt.executeUpdate();
 
 
 			}
 			else {
-				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned,performed_date,u_id) \n" +
+				String insertQuery = "insert into customers_to_blp_activities(customer_id,brand_id,loyalty_program_id,wallet_id,activity_code,points_earned, performed_date,u_id) \n" +
 						"values(?,?,?,?,?,?,?,?)";
 
 
@@ -559,7 +621,7 @@ public class DBTasks {
 				stmt.setInt(3, lpId);
 				stmt.setInt(4, wId);
 				stmt.setString(5, actCode);
-				stmt.setInt(6, ptsEarned-giftCardValue);
+				stmt.setInt(6, Math.max(ptsEarned-giftCardValue,0));
 				stmt.setDate(7,date);
 				stmt.setInt(8,uId);
 
@@ -670,7 +732,7 @@ public class DBTasks {
 		}
 	}
 
-	public static void updateCustomerRewardsForABrand(int customerId, int brandId, int[] totalRewards, int uid[])
+	public static void updateCustomerRewardsForABrand(int customerId, int brandId, int[] totalRewards,int[] totalRedeemedPoints, int uid[])
 	{
 		try
 		{
@@ -681,8 +743,9 @@ public class DBTasks {
 			for(int i=0; i<2; i++)
 			{
 				if(totalRewards[i] > 0) {
-					String query = "select number_of_instances from customers_to_blp_rewards " +
-							"where customer_id = ? and brand_id = ? and reward_category_code = ?";
+					String query = "select number_of_instances, points_redeemed from customers_to_blp_rewards " +
+							"where customer_id = ? and brand_id = ? and reward_category_code = ? and " +
+							"performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1";
 
 					stmt = conn.prepareStatement(query);
 
@@ -694,7 +757,10 @@ public class DBTasks {
 
 					if (rs == null || !rs.next()) {
 						String insertQuery = "insert into customers_to_blp_rewards(customer_id, brand_id, loyalty_program_id," +
-								" reward_category_code, number_of_instances, u_id) values(?,?,?,?,?,?)";
+								" reward_category_code, number_of_instances, points_redeemed  ,performed_date, u_id) values(?,?,?,?,?,?,?,?)";
+
+						long millis = System.currentTimeMillis();
+						Date date = new java.sql.Date(millis);
 
 						stmt = conn.prepareStatement(insertQuery);
 						stmt.setInt(1, customerId);
@@ -702,22 +768,26 @@ public class DBTasks {
 						stmt.setInt(3, loyaltyId);
 						stmt.setString(4, rewCodes[i]);
 						stmt.setInt(5, totalRewards[i]);
-						stmt.setInt(6,uid[i]);
+						stmt.setInt(6,totalRedeemedPoints[i]);
+						stmt.setDate(7,date);
+						stmt.setInt(8,uid[i]);
 
 						stmt.executeUpdate();
 					}
 					else
 					{
-						String updateQuery = "update customers_to_blp_rewards set number_of_instances = ? " +
-								"where brand_id = ? and customer_id = ? and reward_category_code = ?";
+						String updateQuery = "update customers_to_blp_rewards set number_of_instances = ? , points_redeemed = ? " +
+								"where brand_id = ? and customer_id = ? and reward_category_code = ? and " +
+								"performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1";
 
 
 						stmt = conn.prepareStatement(updateQuery);
 
 						stmt.setInt(1,rs.getInt(1)+ totalRewards[i]);
-						stmt.setInt(2,brandId);
-						stmt.setInt(3,customerId);
-						stmt.setString(4,rewCodes[i]);
+						stmt.setInt(2,rs.getInt(2)+ totalRedeemedPoints[i]);
+						stmt.setInt(3,brandId);
+						stmt.setInt(4,customerId);
+						stmt.setString(5,rewCodes[i]);
 
 
 						stmt.executeUpdate();
@@ -808,15 +878,17 @@ public class DBTasks {
 			long millis = System.currentTimeMillis();
 			Date date = new java.sql.Date(millis);
 
+			//String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
+			//		" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
 			String selectQuery = "select points_earned from customers_to_blp_activities where customer_id=? and brand_id=? and " +
-					" activity_code=? and performed_date = to_char( ? , 'DD-MON-yy') ";
+					" activity_code=? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 			stmt = conn.prepareStatement(selectQuery);
 
 			stmt.setInt(1, customerId);
 			stmt.setInt(2, brandId);
-			stmt.setString(3, "ACT101");
-			stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
+			stmt.setString(3, actCode);
+			//stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
 
 
 			rs = stmt.executeQuery();
@@ -824,16 +896,19 @@ public class DBTasks {
 
 			if(rs!= null && rs.next())
 			{
-				String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
-						"and activity_code = ? and performed_date = ?";
+				//String updateQuery = "update customers_to_blp_activities(points_earned = ?) where brand_id = ? and customer_id = ? "+
+				//		"and activity_code = ? and performed_date = ?";
+
+				String updateQuery = "update customers_to_blp_activities set points_earned = ? where brand_id = ? and customer_id = ? "+
+						"and activity_code = ? and performed_date between to_date(sysdate, 'dd-mm-yy') and to_date(sysdate, 'dd-mm-yy')+1 ";
 
 				stmt = conn.prepareStatement(updateQuery);
 
 				stmt.setInt(1,rs.getInt("points_earned") + ptsEarned);
-				stmt.setInt(2,customerId);
-				stmt.setInt(3,brandId);
-				stmt.setString(4,"ACT101");
-				stmt.setDate(5,date);
+				stmt.setInt(2,brandId);
+				stmt.setInt(3,customerId);
+				stmt.setString(4,actCode);
+				//stmt.setDate(5,date);
 
 				stmt.executeUpdate();
 
@@ -934,12 +1009,14 @@ public class DBTasks {
 
 	}
 
-	public static void insertRegularProgramRec(RegularLoyaltyProgram regularLoyaltyProgram) throws Exception {
-		String query = "insert into REGULAR_LOYALTY_PROGRAMS(BRAND_ID)  values (?)";
+	public static void insertRegularProgramRec(RegularLoyaltyProgram regularLoyaltyProgram,String lpName, String lpCode) throws Exception {
+		String query = "insert into REGULAR_LOYALTY_PROGRAMS(BRAND_ID,LP_NAME,LP_CODE)  values (?,?,?)";
 		try {
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, regularLoyaltyProgram.getBrandId());
+			stmt.setString(2, lpName);
+			stmt.setString(3, lpCode);
 
 			stmt.executeUpdate();
 

@@ -12,13 +12,14 @@ import util.DisplayOptions;
 
 public class AddLoyaltyProgram {
 
-	public boolean addRegularUtil() {
+	public boolean addRegularUtil(String lpName, String lpCode) {
 		if (AppData.regularLoyaltyProgramId != null) {
 			return false;
 		}
 		RegularLoyaltyProgram regularLoyaltyProgram = new RegularLoyaltyProgram(AppData.brandId);
+
 		try {
-			DBTasks.insertRegularProgramRec(regularLoyaltyProgram);
+			DBTasks.insertRegularProgramRec(regularLoyaltyProgram,lpName,lpCode);
 		} catch (Exception e) {
 			System.out.println("Error adding record in Regular loyalty prog table: " + e);
 			return false;
@@ -40,12 +41,12 @@ public class AddLoyaltyProgram {
 		return true;
 	}
 
-	public void addRegular() {
+	public void addRegular(String lpName, String lpCode) {
 		if (AppData.regularLoyaltyProgramId != null && AppData.tieredLoyaltyProgram == true) {
 			System.out.println("Tiered loyalty program already added. Please Choose Tiered option");
 			return;
 		}
-		addRegularUtil();
+		addRegularUtil(lpName,lpCode);
 		while (true) {
 			DisplayOptions.printOptions(DisplayOptions.options.get(DisplayOptions.Regular));
 			int option = DisplayOptions.getSc().nextInt();
@@ -71,9 +72,9 @@ public class AddLoyaltyProgram {
 		}
 	}
 
-	public void addTier() {
+	public void addTier(String lpName, String lpCode) {
 		if (AppData.regularLoyaltyProgramId != null && AppData.tieredLoyaltyProgram == false) {
-			System.out.println("Regular loyalty program already added. Please Choose Regular option");
+			System.out.println("Loyalty program already added. Please Choose Regular option");
 			return;
 		}
 		while (true) {
@@ -103,7 +104,7 @@ public class AddLoyaltyProgram {
 							}
 							System.out.println("Enter Number of tiers");
 							int noofTiers = DisplayOptions.getSc().nextInt();
-							addRegularUtil();
+							addRegularUtil( lpName,  lpCode);
 							if (noofTiers == 0) {
 								AppData.tieredLoyaltyProgram = true;
 								try {
@@ -150,6 +151,7 @@ public class AddLoyaltyProgram {
 							} catch (Exception e) {
 								System.out.println(e);
 							}
+							AppData.tieredLoyaltyProgram = true;
 							System.out.println("Tiered loyalty program added!!");
 							break;
 							// Add these details in tier table

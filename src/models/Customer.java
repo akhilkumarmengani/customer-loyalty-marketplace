@@ -46,11 +46,11 @@ public class Customer {
 		this.address = address;
 	}
 
-	public Integer getContactNumber() {
+	public String getContactNumber() {
 		return contactNumber;
 	}
 
-	public void setContactNumber(Integer contactNumber) {
+	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
 
@@ -62,6 +62,6 @@ public class Customer {
 	
 	public String address;
 	
-	public Integer contactNumber;
+	public String contactNumber;
 	
 }

@@ -45,8 +45,7 @@ IF :NEW.NUMBER_OF_INSTANCES > :OLD.NUMBER_OF_INSTANCES THEN
 
     SELECT NUMBER_OF_INSTANCES,REWARD_VALUE into brand_instances,rew_value_string FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
 
-    --SELECT REWARD_VALUE into rew_value_string FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
-
+    
     rew_value_int := TO_NUMBER(rew_value_string);
 
     tot_points := tot_points - (n_instances*rew_value_int);
@@ -58,9 +57,6 @@ IF :NEW.NUMBER_OF_INSTANCES > :OLD.NUMBER_OF_INSTANCES THEN
         WHERE brand_id = :NEW.brand_id and customer_id =:New.customer_id;
     end if;
 
-
-    --combine this with line 47
-    --SELECT NUMBER_OF_INSTANCES INTO brand_instances FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
 
     rem_brand_instances := brand_instances - n_instances;
 

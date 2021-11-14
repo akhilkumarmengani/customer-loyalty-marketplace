@@ -101,7 +101,7 @@ create or replace PACKAGE SHOW_QUERIES_PROCEDURES AS
      x_status                 OUT VARCHAR2,
      x_no_of_activities       OUT NUMBER,
      x_no_of_reward_redeeming OUT NUMBER);
-     
+
    
  
 END SHOW_QUERIES_PROCEDURES;

@@ -66,9 +66,9 @@ public class ShowQueries {
 				case 4:
 				{
 					System.out.println("\nList of activities and their codes: ");
-					System.out.println("Purchase          :   ACT101");
-					System.out.println("Leave A Review    :   ACT102");
-					System.out.println("Refer A Friend    :   ACT103");
+					System.out.println("Purchase          :   A01");
+					System.out.println("Leave A Review    :   A02");
+					System.out.println("Refer A Friend    :   A03");
 					System.out.println("Enter activity code:");
 					DisplayOptions.getSc().nextLine();
 					String activityCode = DisplayOptions.getSc().nextLine();

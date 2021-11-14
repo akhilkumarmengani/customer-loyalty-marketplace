@@ -1,0 +1,38 @@
+Design Choices:
+
+Based on the project description, we identified the following entities:
+1. Employees
+2. Customers
+3. Brands
+4. Activities
+5. Reward Categories
+6. Loyalty Programs
+7. Customer Wallet
+
+For the above entities, we created different relationships/ aggregations/ is-a relations.
+
+Design Justification:
+
+Admin Design:
+1. Admin creates different brands, customers, loyalty Programs types, activities, and rewards.
+   To achieve that,
+   we created BRANDS, CUSTOMERS, ACTIVITIES, REWARD_CATEGORIES and LOYALTY_PROGRAMS Tables.
+   So whenever admin creates new items, data is inserted into the above tables.
+
+
+Brand Design:
+1. Once the admin creates the brands, brands can create their own loyalty programs.
+   This data is stored in REGULAR_LOYALTY_PROGRAMS / TIERED_LOYALTY_PROGRAMS.
+
+2. Brand add different activities and rewards for the loyalty programs.
+   This data is stored in 'BRANDS_LOYALTY_PROGRAMS_TO_ACTIVITIES', 'BRANDS_LOYALTY_PROGRAMS_TO_REWARDS'
+
+Customer Design:
+
+1. Customer enrolls in a Loyalty Program and perform different activities and earn points.
+   This data is stored in this table CUSTOMERS_TO_BLP_ACTIVITIES, CUSTOMERS_TO_BLP_REWARDS
+
+2. Total points for each loyalty program is stored.
+   This data is stored in CUSTOMER_WALLET_TO_CUSTOMERS_BRANDS.
+
+

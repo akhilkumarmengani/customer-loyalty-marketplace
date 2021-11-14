@@ -33,14 +33,20 @@
 6. All the instructions to run the application are in this file. Check Installation Steps below.
 7. Peer reviews are submitted from Moodle.
 
+## Design Justification:
+Please check 'customer-loyalty-program/DesignChoices.txt'
+
 ## Installation Steps
 
 Unzip the JAR provided in step 4( [jar]() ). Use IntelliJ/Eclipse IDE or any other framework which can compile and run Java files.
 Steps to run the application:
-1. Open the folder in the IDE
-2. Navigate to the ```customer-loyalty-program/src/main/
-3. Right Click on the file and run as Java Application.
-4. User will see the options in the terminal
+1. Open the folder in the IDE,
+   In the project properties, add 'ojdbc8.jar' (https://www.oracle.com/database/technologies/jdbc-ucp-122-downloads.html#license-lightbox)
+   (driver) in the java build path.
+2. Navigate to the 'customer-loyalty-program/src/main/'
+3. 'Right Click' on the file and run as Java Application.
+4. User will see the options in the terminal.
+5. We are showing appropriate options and user just need to follow the prompts in the command line terminal.
 
 
 Note:

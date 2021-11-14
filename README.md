@@ -1,13 +1,20 @@
 # Customer Loyalty Program
 
 1. **ER Diagram**
-
+   ```customer-loyatly-program/CustomerLoyaltyMarketPlaceERDiagram.pdf```
 2. **SQL files**
-
-
+   1. **Tables, Index and Insert files:**
+      1. Table Creation : ```customer-loyalty-program/schema/AllTables.sql```
+      2. Indices : ```customer-loyalty-program/schema/Indexes.sql```
+      3. Insert Statement : ```customer-loyalty-program/schema/InsertStatements.sql```
+   2. **Triggers**
+      1. All Triggers Used : ```customer-loyalty-program/triggers/AllTriggersCombined.sql```
+      2. Individual Trigger Files : ```customer-loyalty-program/triggers/``` contains individual files each trigger.
 3. **(a) Constraints** <br>
-   **(b) Functional Dependencies** <br>
+   1. ```customer-loyalty-program/schema/AllTables.sql``` contains all the constraints in the database design. 
 
+   **(b) Functional Dependencies** <br>
+   1. ```customer-loyatly-program/FunctionalDependencies.pdf```
 
 4. **Executable JAR file**
 

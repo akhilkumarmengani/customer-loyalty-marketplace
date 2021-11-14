@@ -1,13 +1,6 @@
---------------------------------------------------------
---  File created - Thursday-November-11-2021   
---------------------------------------------------------
---------------------------------------------------------
---  DDL for Package SHOW_QUERIES_PROCEDURES
---------------------------------------------------------
+create or replace PACKAGE SHOW_QUERIES_PROCEDURES AS 
 
-  CREATE OR REPLACE EDITIONABLE PACKAGE "SMULKUR"."SHOW_QUERIES_PROCEDURES" AS 
-
-  -- TODO enter package declarations (types, exceptions, methods etc) here */ 
+  -- Package declarations (types, records, tables etc) 
   TYPE customer_record_1 IS RECORD(
     customer_username users.user_name%TYPE,
     customer_name customers.name%TYPE
@@ -56,14 +49,14 @@
    p_brand_username     IN  VARCHAR2,
    x_return_message     OUT VARCHAR2,
    x_status             OUT VARCHAR2);
-   --customer_query_table OUT customer_table);
+   
   
   PROCEDURE  GET_RESULTS_FOR_OPTION_2
    (
    p_operation                   IN  VARCHAR2,
    x_return_message              OUT VARCHAR2,
    x_status                      OUT VARCHAR2);
-   --customer_loyalty_query_table  OUT customer_loyalty_table);
+   
    
   PROCEDURE GET_RESULTS_FOR_OPTION_3
    (
@@ -71,7 +64,7 @@
    p_brand_username            IN  VARCHAR2,
    x_return_message            OUT VARCHAR2,
    x_status                    OUT VARCHAR2);
-   --reward_category_query_table OUT reward_category_table);
+   
 
   PROCEDURE GET_RESULTS_FOR_OPTION_4
    (
@@ -79,7 +72,7 @@
    p_activity_code             IN  VARCHAR2,
    x_return_message            OUT VARCHAR2,
    x_status                    OUT VARCHAR2);
-   --brand_loyalty_query_table   OUT brand_loyalty_table);
+  
    
    PROCEDURE GET_RESULTS_FOR_OPTION_5
    (
@@ -87,7 +80,6 @@
    p_brand_username            IN  VARCHAR2,
    x_return_message            OUT VARCHAR2,
    x_status                    OUT VARCHAR2);
-   --brand_loyalty_query_table   OUT brand_loyalty_table);
    
       
    PROCEDURE GET_RESULTS_FOR_OPTION_7
@@ -96,7 +88,7 @@
    p_threshold_val      IN  NUMBER,
    x_return_message     OUT VARCHAR2,
    x_status             OUT VARCHAR2);
-   --brand_query_table    OUT brand_table);
+
    
    PROCEDURE GET_RESULTS_FOR_OPTION_8
    (
@@ -111,5 +103,3 @@
    
  
 END SHOW_QUERIES_PROCEDURES;
-
-/

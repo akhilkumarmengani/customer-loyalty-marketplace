@@ -106,7 +106,7 @@ public class CustomerLanding {
 						}
 						else {
 							String activityCode = activities.get(actOption-1)[0];
-							if("ACT101".equals(activityCode)) {
+							if("A01".equals(activityCode)) {
 //								long millis = System.currentTimeMillis();
 //						        Date date = new java.sql.Date(millis);
 								
@@ -165,7 +165,7 @@ public class CustomerLanding {
 									}
 								}
 							}
-							else if("ACT102".equals(activityCode)) {
+							else if("A02".equals(activityCode)) {
 
 								System.out.println("--------------Leave A Review Activity--------------");
 								System.out.println();
@@ -184,6 +184,7 @@ public class CustomerLanding {
 
 									if(reviewOption == 1){
 										CustomerLandingUtil.insertIntoCustomerToBLPActivitiesForReview(AppData.customerId,AppData.brandId,activityCode);
+										break;
 									}
 									else{
 										break;
@@ -192,7 +193,7 @@ public class CustomerLanding {
 
 								}
 							}
-							else if("ACT103".equals(activityCode)) {
+							else if("A03".equals(activityCode)) {
 								while(true){
 									System.out.println("--------------Leave A Review Activity--------------");
 									System.out.println();
@@ -334,7 +335,7 @@ public class CustomerLanding {
 
 								total_wallet_points = total_wallet_points - (no_of_instances * rew_value);
 
-								if(rewCode.equals("REW101"))
+								if(rewCode.equals("R01"))
 								{
 									total_reward_instances[0]+= no_of_instances;
 									total_redeemed_values[0] += no_of_instances * rew_value;

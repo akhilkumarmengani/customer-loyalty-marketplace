@@ -196,7 +196,7 @@ public class ShowQueriesUtil {
         try{
 
             CallableStatement stmt = DBTasks.conn.prepareCall(
-                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_8(?,?,?,?,?,?,?,?)}");
+                    "{call SHOW_QUERIES_PROCEDURES.GET_RESULTS_FOR_OPTION_8(?,?,?,?,?,?,?,?,?)}");
 
             stmt.setString(1,"8");
             stmt.setString(2,brandName);
@@ -207,9 +207,13 @@ public class ShowQueriesUtil {
             stmt.registerOutParameter(6  , Types.VARCHAR);
             stmt.registerOutParameter(7  , Types.VARCHAR);
             stmt.registerOutParameter(8 , Types.INTEGER);
+            stmt.registerOutParameter(9 , Types.INTEGER);
             stmt.executeQuery();
 
-            System.out.println("No of activities:  "+ stmt.getInt(8));
+            System.out.println("No of Activities Performed:  "+ stmt.getInt(8));
+            System.out.println("No of Redeeming Activities:  "+ stmt.getInt(9));
+
+            System.out.println("Total Number of Activities Performed: "+ (stmt.getInt(8)+stmt.getInt(9)));
 
         }
         catch(Exception e)

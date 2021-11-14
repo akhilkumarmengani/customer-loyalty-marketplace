@@ -1,21 +1,24 @@
---------------------------------------------------------
---  File created - Thursday-November-11-2021   
---------------------------------------------------------
---------------------------------------------------------
---  DDL for Package Body SHOW_QUERIES_PROCEDURES
---------------------------------------------------------
+create or replace PACKAGE BODY SHOW_QUERIES_PROCEDURES AS
 
-  CREATE OR REPLACE EDITIONABLE PACKAGE BODY "SMULKUR"."SHOW_QUERIES_PROCEDURES" AS
-
+-- Error message to be shown in case of Exception while fetching records
 SQLERRM varchar2(40) := 'SQL ERROR WHILE FECTHING RECORDS';
 
   
 --- Procedure 1
+/****
+** This Procedure is called when user selects option 1 or option 6 in Show Queries Section
+** p_operation: IN parameter: To know which operation the user selected, 1 or 6
+** p_operation = 1, This returns the customer details who are not part of a particular brand
+** p_operation = 6, This returns customers that have redeemed at least twice of a particular brand 
+** p_brand_username: IN parameter: The Brand ID of a particluar brand that we are querying for
+** x_return_message: OUT parameter: Which will return the customer details
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
                                     p_brand_username IN  VARCHAR2,
                                     x_return_message OUT VARCHAR2,
                                     x_status         OUT VARCHAR2)
-                                    --customer_query_table OUT customer_table)
+                                    
   IS
 
   counter Integer := 0;
@@ -59,7 +62,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
           c.name            AS CustomerName
     FROM
         customers                                  c,
-        customers_to_blp_reward_redeeming_activity cblprr,
+        customers_to_blp_rewards                   cblprr,
         brands                                     b,
         Users                                      users_brand,
         Users                                      users_cust
@@ -70,9 +73,9 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
          AND cblprr.customer_id = c.customer_id
          AND c.user_id = users_cust.user_id
     GROUP BY
-            users_cust.user_name,c.name
+            users_cust.user_name, c.name
     HAVING
-          COUNT(*) > 1;
+          sum(number_of_instances) > 1;
   
  BEGIN
     
@@ -89,7 +92,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,customer_query_record.customer_name);
         x_return_message := concat(x_return_message,'#');
-        --customer_query_table(counter) := customer_query_record;
+        
               
        END LOOP;
     END IF;
@@ -106,7 +109,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,customer_query_record.customer_name);
         x_return_message := concat(x_return_message,'#');
-        --customer_query_table(counter) := customer_query_record;
+        
           
        END LOOP;
     END IF;
@@ -120,11 +123,17 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_1_6(p_operation    IN  VARCHAR2,
   
   
 --- Procedure 2
-
+/****
+** This Procedure is called when user selects option 2 in Show Queries Section
+** This returns the customers who joined the loyalty programs but not participated in the program
+** p_operation: IN parameter: To know which operation the user selected, 2
+** x_return_message: OUT parameter: Which will return the customer and loyalty program details
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 PROCEDURE  GET_RESULTS_FOR_OPTION_2(p_operation                   IN  VARCHAR2,
                                     x_return_message              OUT VARCHAR2,
                                     x_status                      OUT VARCHAR2)
-                                    --customer_loyalty_query_table  OUT customer_loyalty_table)
+                                    
   IS
   counter Integer := 0;
   customer_loyalty_query_record customer_loyalty_record_1;
@@ -166,7 +175,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_2(p_operation                   IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,customer_loyalty_query_record.loyalty_program_id);
         x_return_message := concat(x_return_message,'#');
-        --customer_loyalty_query_table(counter) := customer_loyalty_query_record;
+        
         
         
     END LOOP;
@@ -180,21 +189,27 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_2(p_operation                   IN  VARCHAR2,
   END GET_RESULTS_FOR_OPTION_2;
 
 --- Procedure 3
-
+/****
+** This Procedure is called when user selects option 3 in Show Queries Section
+** This returns the rewards for a particular Brand loyalty program
+** p_operation: IN parameter: To know which operation the user selected, 3
+** p_brand_username: IN parameter: The Brand ID of a particluar brand that we are querying for
+** x_return_message: OUT parameter: Which will have the reward details
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 PROCEDURE  GET_RESULTS_FOR_OPTION_3(p_operation                   IN  VARCHAR2,
                                     p_brand_username              IN  VARCHAR2,
                                     x_return_message              OUT VARCHAR2,
                                     x_status                      OUT VARCHAR2)
-                                   -- reward_category_query_table   OUT reward_category_table)
+                                   
   IS
   counter Integer := 0;
   reward_category_query_record reward_category_record_1;
-  --x_status = 'hello' ;
+
   CURSOR reward_category_cursor
   IS
-  --select * from reward_categories where reward_category_code in(
     SELECT 
-          distinct rwd.reward_category_code AS rewardcategorycode,
+         distinct rwd.reward_category_code AS rewardcategorycode,
          rwd.reward_name       AS rewardname
     FROM
          reward_categories                  rwd,
@@ -208,9 +223,6 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_3(p_operation                   IN  VARCHAR2,
          AND users_brand.user_id = b.user_id 
          AND users_brand.user_name = p_brand_username
          AND blpr.version_number = 1;
-        --group by rwd.reward_category_code;--);
-        --fetch next 1 rows only;
-        --having rownum = min(rownum);
     
    BEGIN
      x_return_message := 'RewardCategoryCode|RewardName#';
@@ -227,12 +239,6 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_3(p_operation                   IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,reward_category_query_record.reward_name);
         x_return_message := concat(x_return_message,'#');
-        --DBMS_OUTPUT.put_line(reward_category_query_record);
-        --reward_category_query_table(counter) := reward_category_query_record;
-        --insert into test_table(x,y,z) values(reward_category_query_table(counter).reward_category_code,reward_category_query_table(counter).reward_name,reward_category_query_table(counter).reward_name);        
-        --IF reward_category_cursor%NOTFOUND THEN
-        --    EXIT;
-        --END IF;
         
      END LOOP;
   
@@ -240,11 +246,19 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_3(p_operation                   IN  VARCHAR2,
     EXCEPTION 
         WHEN OTHERS THEN
             x_return_message:= SUBSTR(SQLERRM, 1, 200);
-            --x_status:='E';
+            x_status:='E';
     
   END GET_RESULTS_FOR_OPTION_3; 
 
 --- Procedure 4
+/****
+** This Procedure is called when user selects option 4 in Show Queries Section
+** This returns the list of all loyalty programs that include 'refer a friend' as an activity in atleast one of their reward rules
+** p_operation: IN parameter: To know which operation the user selected, 4
+** p_activity_code: IN parameter: The activity code of a particular activity
+** x_return_message: OUT parameter: Which will have the list of loyalty programs
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 
 PROCEDURE  GET_RESULTS_FOR_OPTION_4(p_operation                  IN  VARCHAR2,
                                      p_activity_code             IN  VARCHAR2,
@@ -278,7 +292,6 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_4(p_operation                  IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,brand_loyalty_query_record.loyalty_program_id);
         x_return_message := concat(x_return_message,'#');
-        --brand_loyalty_query_table(counter) := brand_loyalty_query_record;
         
         IF brand_loyalty_cursor%NOTFOUND THEN
             EXIT;
@@ -296,6 +309,14 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_4(p_operation                  IN  VARCHAR2,
   
   
 --- Procedure 5
+/****
+** This Procedure is called when user selects option 5 in Show Queries Section
+** This returns the number of instances of each activity of a brand 
+** p_operation: IN parameter: To know which operation the user selected, 5
+** p_brand_username: IN parameter: The Brand Id of a particular brand we are querying for
+** x_return_message: OUT parameter: Which will have the number of instances for each activity
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 
 PROCEDURE  GET_RESULTS_FOR_OPTION_5(p_operation                  IN  VARCHAR2,
                                      p_brand_username            IN  VARCHAR2,
@@ -311,7 +332,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_5(p_operation                  IN  VARCHAR2,
   
     SELECT
             a.activity_name,
-            COUNT(*) AS numberofinstances
+            sum(number_of_instances) as number_of_instances
     FROM
             brands                      b,
             customers_to_blp_activities cblpa,
@@ -335,7 +356,6 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_5(p_operation                  IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,activity_instance_query_record.number_of_instances);
         x_return_message := concat(x_return_message,'#');
-        --brand_loyalty_query_table(counter) := brand_loyalty_query_record;
         
         IF activity_cursor%NOTFOUND THEN
             EXIT;
@@ -354,12 +374,19 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_5(p_operation                  IN  VARCHAR2,
   
 
 --- Procedure 7
+/****
+** This Procedure is called when user selects option 7 in Show Queries Section
+** This returns the brands where total number of points redeemed overall is less than threshold value points
+** p_operation: IN parameter: To know which operation the user selected, 7
+** p_threshold_val: IN parameter: The threshold value for total number of points redeemed
+** x_return_message: OUT parameter: Which will have the details of brands
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+****/
 
 PROCEDURE  GET_RESULTS_FOR_OPTION_7(p_operation                  IN  VARCHAR2,
                                      p_threshold_val             IN  NUMBER,
                                      x_return_message            OUT VARCHAR2,
                                      x_status                    OUT VARCHAR2)
-                                     --brand_query_table           OUT brand_table)
   IS
   counter Integer := 0;
   brand_query_record brand_record_1;
@@ -371,7 +398,7 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_7(p_operation                  IN  VARCHAR2,
           b.name AS BrandName
     FROM
           brands                                     b,
-          customers_to_blp_reward_redeeming_activity cblprr,
+          customers_to_blp_rewards cblprr,
           Users                                 brand_users
     WHERE
               
@@ -395,7 +422,6 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_7(p_operation                  IN  VARCHAR2,
         x_return_message := concat(x_return_message,'|');
         x_return_message := concat(x_return_message,brand_query_record.brand_name);
         x_return_message := concat(x_return_message,'#');
-        --brand_query_table(counter) := brand_query_record;
         
     END LOOP;
   
@@ -409,6 +435,18 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_7(p_operation                  IN  VARCHAR2,
   
 
 --- Procedure 8
+/****
+** This Procedure is called when user selects option 8 in Show Queries Section
+** This returns the number of activities of a particular customer in a particular brand program between given dates
+** p_operation: IN parameter: To know which operation the user selected, 8
+** p_brand_username: IN parameter: The Brand Id of a particular brand for which we are querying for
+** p_customer_name: IN parameter: The Customer Id of a particular customer for which we are querying for
+** p_start_date: IN parameter: Given start date
+** p_end_date: IN parameter: Given end date
+** x_return_message: OUT parameter: Will have an error message if there is an exception
+** x_status: OUT parameter: It will return the status of this Procedure call. If successful then 'S', else 'E'
+** x_no_of_activities: OUT parameter: The return value which is number of activities
+****/
 
 PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
                                    p_brand_username     IN  VARCHAR2,
@@ -425,7 +463,7 @@ PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
   BEGIN
   
         SELECT
-               COUNT(*) INTO l_no_of_activites
+               sum(number_of_instances) into l_no_of_activites
         FROM
                customers_to_blp_activities cblpa,
                customers                   c,
@@ -442,11 +480,13 @@ PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
               AND cblpa.brand_id = b.brand_id
               AND cblpa.performed_date BETWEEN to_date(p_start_date,'MM/DD/YYYY') AND to_date(p_end_date,'MM/DD/YYYY');
         x_no_of_activities := l_no_of_activites;
+        EXCEPTION 
+        WHEN OTHERS THEN
+            x_return_message:= SUBSTR(SQLERRM, 1, 200);
+            x_status:='E';
   
   END GET_RESULTS_FOR_OPTION_8;
  
                                    
   
 END SHOW_QUERIES_PROCEDURES;
-
-/

@@ -259,7 +259,7 @@ public class DBTasks {
 
 
 	public static void insertIntoCustomersToBrands(int customerId, int brandId) throws Exception {
-		System.out.println(customerId+" "+brandId);
+		//System.out.println(customerId+" "+brandId);
 
 		String query = "insert into customers_to_brands(customer_id,brand_id)  values (?,?)";
 		try
@@ -429,7 +429,7 @@ public class DBTasks {
 
 			stmt.setInt(1, customerId);
 			stmt.setInt(2, brandId);
-			stmt.setString(3, "REW101");
+			stmt.setString(3, "R01");
 
 			ResultSet rs = stmt.executeQuery();
 
@@ -583,7 +583,7 @@ public class DBTasks {
 
 			stmt.setInt(1, customerId);
 			stmt.setInt(2, brandId);
-			stmt.setString(3, "ACT101");
+			stmt.setString(3, "A01");
 			//stmt.setDate(4,java.sql.Date.valueOf(java.time.LocalDate.now()));
 
 
@@ -599,7 +599,7 @@ public class DBTasks {
 				stmt = conn.prepareStatement(updateQuery);
 				int inputValue = (rs.getInt(1) + Math.max(ptsEarned - giftCardValue,0));
 				int no_of_inst = rs.getInt(2);
-				String aCode = new String("ACT101");
+				String aCode = new String("A01");
 				stmt.setInt(1,inputValue);
 				stmt.setInt(2,no_of_inst+1);
 				stmt.setInt(3,brandId);
@@ -739,7 +739,7 @@ public class DBTasks {
 	{
 		try
 		{
-			String[] rewCodes = new String[]{"REW101","REW102"};
+			String[] rewCodes = new String[]{"R01","R02"};
 
 			int loyaltyId = getLoyaltyId(brandId);
 

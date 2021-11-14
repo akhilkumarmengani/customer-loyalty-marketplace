@@ -131,6 +131,9 @@ public class AdminLanding {
 					System.out.println("Brand Address: "+brandObj.getAddress());
 
 					//System.out.println("Brand Contact Number :"+brandObj.getContactNumber()+"\n");
+
+					System.out.println("\n--------------------------------------------\n");
+
 				}
 
 			}
@@ -181,7 +184,11 @@ public class AdminLanding {
 
 					System.out.println("Customer Address: "+custObj.getAddress());
 
-					System.out.println("Customer Contact Number :"+custObj.getContactNumber()+"\n");
+					System.out.println("Customer Contact Number :"+custObj.getContactNumber());
+
+
+					System.out.println("\n-------------------------------------------\n");
+
 				}
 
 			}

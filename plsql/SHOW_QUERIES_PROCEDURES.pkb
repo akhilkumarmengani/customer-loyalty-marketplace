@@ -448,20 +448,22 @@ PROCEDURE  GET_RESULTS_FOR_OPTION_7(p_operation                  IN  VARCHAR2,
 ** x_no_of_activities: OUT parameter: The return value which is number of activities
 ****/
 
-PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
-                                   p_brand_username     IN  VARCHAR2,
-                                   p_customer_name      IN  VARCHAR2,
-                                   p_start_date         IN  VARCHAR2,
-                                   p_end_date           IN  VARCHAR2,
-                                   x_return_message     OUT VARCHAR2,
-                                   x_status             OUT VARCHAR2,
-                                   x_no_of_activities   OUT NUMBER)
+PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation              IN  VARCHAR2,
+                                   p_brand_username         IN  VARCHAR2,
+                                   p_customer_name          IN  VARCHAR2,
+                                   p_start_date             IN  VARCHAR2,
+                                   p_end_date               IN  VARCHAR2,
+                                   x_return_message         OUT VARCHAR2,
+                                   x_status                 OUT VARCHAR2,
+                                   x_no_of_activities       OUT NUMBER,
+                                   x_no_of_reward_redeeming OUT NUMBER)
   IS
-    
+
   l_no_of_activites NUMBER := 0;
-  
+  l_no_of_reward_redeeming NUMBER := 0;
+
   BEGIN
-  
+
         SELECT
                sum(number_of_instances) into l_no_of_activites
         FROM
@@ -471,7 +473,7 @@ PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
                Users                       brand_users,
                Users                       cust_users
         WHERE
-                  
+
                   cust_users.user_name = p_customer_name
               AND   c.user_id = cust_users.user_id
               AND cblpa.customer_id = c.customer_id
@@ -479,13 +481,33 @@ PROCEDURE GET_RESULTS_FOR_OPTION_8(p_operation          IN  VARCHAR2,
               AND b.user_id = brand_users.user_id
               AND cblpa.brand_id = b.brand_id
               AND cblpa.performed_date BETWEEN to_date(p_start_date,'MM/DD/YYYY') AND to_date(p_end_date,'MM/DD/YYYY');
+
+        SELECT
+               sum(number_of_instances) into l_no_of_reward_redeeming
+        FROM
+               CUSTOMERS_TO_BLP_REWARDS    cblpr,
+               customers                   c,
+               brands                      b,
+               Users                       brand_users,
+               Users                       cust_users
+        WHERE
+
+                  cust_users.user_name = p_customer_name
+              AND   c.user_id = cust_users.user_id
+              AND cblpr.customer_id = c.customer_id
+              AND brand_users.user_name = p_brand_username
+              AND b.user_id = brand_users.user_id
+              AND cblpr.brand_id = b.brand_id
+              AND cblpr.performed_date BETWEEN to_date(p_start_date,'MM/DD/YYYY') AND to_date(p_end_date,'MM/DD/YYYY');
         x_no_of_activities := l_no_of_activites;
-        EXCEPTION 
+        x_no_of_reward_redeeming := l_no_of_reward_redeeming;
+        EXCEPTION
         WHEN OTHERS THEN
             x_return_message:= SUBSTR(SQLERRM, 1, 200);
             x_status:='E';
-  
+
   END GET_RESULTS_FOR_OPTION_8;
+
  
                                    
   

@@ -90,16 +90,18 @@ create or replace PACKAGE SHOW_QUERIES_PROCEDURES AS
    x_status             OUT VARCHAR2);
 
    
-   PROCEDURE GET_RESULTS_FOR_OPTION_8
-   (
-   p_operation          IN  VARCHAR2,
-   p_brand_username     IN  VARCHAR2,
-   p_customer_name      IN  VARCHAR2,
-   p_start_date         IN  VARCHAR2,
-   p_end_date           IN  VARCHAR2,
-   x_return_message     OUT VARCHAR2,
-   x_status             OUT VARCHAR2,
-   x_no_of_activities   OUT NUMBER);
+  PROCEDURE GET_RESULTS_FOR_OPTION_8
+     (
+     p_operation              IN  VARCHAR2,
+     p_brand_username         IN  VARCHAR2,
+     p_customer_name          IN  VARCHAR2,
+     p_start_date             IN  VARCHAR2,
+     p_end_date               IN  VARCHAR2,
+     x_return_message         OUT VARCHAR2,
+     x_status                 OUT VARCHAR2,
+     x_no_of_activities       OUT NUMBER,
+     x_no_of_reward_redeeming OUT NUMBER);
+     
    
  
 END SHOW_QUERIES_PROCEDURES;

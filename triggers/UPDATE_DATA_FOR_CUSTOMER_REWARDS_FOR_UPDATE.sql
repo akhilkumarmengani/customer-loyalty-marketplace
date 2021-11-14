@@ -53,7 +53,7 @@ IF :NEW.NUMBER_OF_INSTANCES > :OLD.NUMBER_OF_INSTANCES THEN
 
     UPDATE customer_wallet_to_customers_brands SET total_points = tot_points WHERE brand_id = :NEW.brand_id and customer_id =:New.customer_id;
     
-    IF :NEW.reward_category_code = 'REW101' then
+    IF :NEW.reward_category_code = 'R01' then
         UPDATE customer_wallet_to_customers_brands SET number_of_gift_cards = number_of_gift_cards + n_instances 
         WHERE brand_id = :NEW.brand_id and customer_id =:New.customer_id;
     end if;

@@ -30,7 +30,6 @@ n_instances := :NEW.NUMBER_OF_INSTANCES;
 select max(version_number) into max_version_number from BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code;
 
 SELECT REWARD_VALUE,NUMBER_OF_INSTANCES into rew_value_string,brand_instances FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
---SELECT REWARD_VALUE into rew_value_string FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
 
 rew_value_int := TO_NUMBER(rew_value_string);
 
@@ -45,8 +44,6 @@ IF :NEW.reward_category_code = 'R01' then
 end if;
 
 
---combine this with line 32
---SELECT NUMBER_OF_INSTANCES INTO brand_instances FROM BRANDS_LOYALTY_PROGRAMS_TO_REWARDS WHERE brand_id =:NEW.brand_id and reward_category_code = :NEW.reward_category_code and version_number = max_version_number;
 
 rem_brand_instances := brand_instances - n_instances;
 

@@ -1,50 +1,49 @@
 # Customer Loyalty Program
 
-### Team - 3
-- Samson Reddy Mulkur ( **smulkur** )
-- Akhil Kumar Mengani ( **amengan** )
-- Sai Naga Vamshi Chidara ( **schidar** )
-- Pranav Singaraju ( **pvsingar** )
+1. ER Diagram
+   'customer-loyatly-program/CustomerLoyaltyMarketPlaceERDiagram.pdf'
+2. SQL files
+   (a)
+   1. Tables, Index and Insert files
+      1. Table Creation : 'customer-loyalty-program/schema/AllTables.sql'
+      2. Indices : 'customer-loyalty-program/schema/Indexes.sql'
 
-1. **ER Diagram**
-   ```customer-loyatly-program/CustomerLoyaltyMarketPlaceERDiagram.pdf```
-2. **SQL files**
-   1. **Tables, Index and Insert files:**
-      1. Table Creation : ```customer-loyalty-program/schema/AllTables.sql```
-      2. Indices : ```customer-loyalty-program/schema/Indexes.sql```
-      3. Queries for populating the tables with the sample data : ```customer-loyalty-program/schema/InsertStatements.sql```
-   2. **Triggers**
-      1. All Triggers Used : ```customer-loyalty-program/triggers/AllTriggersCombined.sql```
-      2. Individual Trigger Files : ```customer-loyalty-program/triggers/``` contains individual files each trigger.
-   3. **Procedures**
-      1. Procedures : ```customer-loyalty-program/schema/``` contains two files pkb and pkh.
-         1. ```pkh``` contains procedure names and IN OUT parameters
-         2. ```pkb``` contains the descriptions and definitions of the procedures.
-3. **(a) Constraints** <br>
-   1. ```customer-loyalty-program/schema/AllTables.sql``` contains all the constraints in the database design.
+   2. Triggers:
+      1. All Triggers Used : 'customer-loyalty-program/triggers/AllTriggersCombined.sql'
+      2. Individual Trigger Files : 'customer-loyalty-program/triggers/' contains individual files each trigger.
+
+   3. Procedures : 'customer-loyalty-program/schema/' contains two files pkb and pkh.
+      1. pkh contains procedure names and IN OUT parameters
+      2. pkb contains the descriptions and definitions of the procedures.
+   (b)
+      1. Queries for populating the tables with the sample data : 'customer-loyalty-program/schema/InsertStatements.sql'
+
+3. (a) Constraints
+   1. 'customer-loyalty-program/schema/AllTables.sql' contains all the constraints in the database design.
    2. Short descriptions for the constraints needed are added in the triggers and procedures files.
    3. We leveraged triggers to update or insert into tables instead of programming in the application.
    4. We also used procedures to retrieve query results.
    5. Application logic is implemented by making using of the triggers, procedures and constraints in the DBMS.
 
-   **(b) Functional Dependencies** <br>
-   1. ```customer-loyatly-program/FunctionalDependencies.pdf```
-   
-5. ** Executable JAR file **
-6. README.txt attached
-7. All the instructions to run the application are in this file. Check Installation Steps below.
+   (b) Functional Dependencies
+   1. 'customer-loyatly-program/FunctionalDependencies.pdf'
 
-## **Installation Steps**
+4. Executable JAR file
+5. README.txt attached
+6. All the instructions to run the application are in this file. Check Installation Steps below.
+7. Peer reviews are submitted from Moodle.
+
+## Installation Steps
 
 Unzip the JAR provided in step 4( [jar]() ). Use IntelliJ/Eclipse IDE or any other framework which can compile and run Java files.
 Steps to run the application:
 1. Open the folder in the IDE
-2. Navigate to the ```customer-loyalty-program/src/main/```
+2. Navigate to the ```customer-loyalty-program/src/main/
 3. Right Click on the file and run as Java Application.
 4. User will see the options in the terminal
 
 
-**Note:** 
+Note:
 1. Anytime a user is asked for input from the application, please enter **Integer** options only. <br>
 2. See the options available in that page and then select the appropriate option** <br>
 

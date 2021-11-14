@@ -1,5 +1,11 @@
 --Trigger 1
 
+/****
+** This trigger is invoked when user signs up in the application
+** based on the login type rows are inserted either into Brands table or
+** customers table.
+****/
+
 create or replace TRIGGER "USER_CUSTOMER_INSERTION" AFTER INSERT ON Users
 FOR EACH ROW
 
@@ -24,6 +30,13 @@ END;
 
 --Trigger 2
 
+
+
+/****
+** This trigger is invoked when brand enrolls in a loyalty program
+** then it updates the loyalty type
+****/
+
 create or replace TRIGGER "UPDATE_REGULAR_LOYALTY_TYPE" AFTER INSERT ON regular_loyalty_programs
 FOR EACH ROW
 BEGIN
@@ -32,6 +45,12 @@ END;
 
 
 --Trigger 3
+
+
+/****
+** This trigger is invoked when brand enrolls in a loyalty program
+** then it updates the loyalty type
+****/
 
 create or replace TRIGGER "UPDATE_LOYALTY_TYPE" AFTER INSERT ON Tiered_Loyalty_Programs
 FOR EACH ROW
@@ -48,6 +67,12 @@ END;
 
 
 --Trigger 4
+
+
+/****
+** This trigger is invoked when a customer performs a redeeming activity
+** updates tiers, total points in customer wallet
+****/
 
 
 create or replace TRIGGER UPDATE_DATA_FOR_CUSTOMER_REWARDS_FOR_UPDATE
@@ -150,6 +175,12 @@ END;
 
 --Trigger 5
 
+
+/****
+** This trigger is invoked when a customer performs a redeeming activity
+** updates tiers, total points in customer wallet
+****/
+
 create or replace TRIGGER "UPDATE_DATA_FOR_CUSTOMER_REWARDS_FOR_INSERT" AFTER INSERT ON CUSTOMERS_TO_BLP_REWARDS
 FOR EACH ROW
 DECLARE
@@ -230,6 +261,10 @@ END;
 
 --Trigger 6
 
+/****
+** This trigger is invoked when customer enrolls in a brand loyalty program
+****/
+
 create or replace TRIGGER "CUSTOMER_TO_BRANDS" AFTER INSERT ON Customers_To_Brands
 FOR EACH ROW
 DECLARE
@@ -260,6 +295,12 @@ END;
 
 
 --Trigger 7
+
+/****
+** This trigger is invoked when customer performs activities
+** based on the activity performed and the value for the activity,
+** in the customer wallet table total points are updated.
+****/
 
 create or replace TRIGGER CUSTOMER_BLPA_TO_CUSTOMER_WALLET_BRANDS
 AFTER INSERT ON CUSTOMERS_TO_BLP_ACTIVITIES
@@ -311,6 +352,12 @@ END;
 
 
 --Trigger 8
+
+/****
+** This trigger is invoked when customer performs activities
+** based on the activity performed and the value for the activity,
+** in the customer wallet table total points are updated.
+****/
 
 create or replace TRIGGER CUSTOMER_BLPA_CUSTOMER_WALLET_BRANDS_ON_UPDATE
 AFTER UPDATE ON CUSTOMERS_TO_BLP_ACTIVITIES
